@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURACAL — Shop</title>
+  <meta
+    name="description"
+    content="Shop AURACAL premium futuristic luxury clothing with smart fit guidance and precision sizing."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .shop-hero {
+      position: relative;
+      padding-top: 7rem;
+      overflow: hidden;
+    }
+
+    .shop-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(168, 85, 247, 0.18), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 80%);
+      pointer-events: none;
+    }
+
+    .shop-hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .shop-hero-copy p {
+      max-width: 60ch;
+      color: var(--text-soft);
+      line-height: 1.8;
+      margin: 1rem 0 0;
+    }
+
+    .shop-hero-copy h1 {
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin: 1rem 0 0;
+      max-width: 11ch;
+    }
+
+    .shop-hero-panel {
+      border-radius: var(--radius-xl);
+      padding: 1.2rem;
+    }
+
+    .shop-hero-panel p {
+      color: var(--text-soft);
+      line-height: 1.7;
+      margin: 0.85rem 0 1rem;
+    }
+
+    .shop-toolbar {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .filter-chip {
+      padding: 0.78rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-soft);
+      transition:
+        transform var(--transition),
+        border-color var(--transition),
+        background var(--transition),
+        color var(--transition),
+        box-shadow var(--transition);
+    }
+
+    .filter-chip:hover,
+    .filter-chip.is-active {
+      transform: translateY(-2px);
+      color: var(--white);
+      background: rgba(168, 85, 247, 0.12);
+      border-color: rgba(168, 85, 247, 0.3);
+      box-shadow: 0 12px 26px rgba(168, 85, 247, 0.15);
+    }
+
+    .shop-layout {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .shop-sidebar {
+      border-radius: var(--radius-xl);
+      padding: 1.2rem;
+      align-self: start;
+    }
+
+    .shop-sidebar h3,
+    .shop-summary h3 {
+      margin: 0 0 0.85rem;
+      font-size: 1rem;
+    }
+
+    .shop-sidebar p,
+    .shop-summary p {
+      color: var(--text-soft);
+      line-height: 1.75;
+      margin: 0 0 1rem;
+    }
+
+    .sidebar-stack {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .sidebar-meta {
+      border-radius: 20px;
+      padding: 0.95rem 1rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .sidebar-meta span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .sidebar-meta strong {
+      font-size: 1rem;
+    }
+
+    .shop-content {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .shop-summary {
+      border-radius: var(--radius-xl);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .shop-summary-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .result-count {
+      color: var(--text-soft);
+    }
+
+    .product-card.is-hidden {
+      display: none;
+    }
+
+    .product-card .fit-note {
+      margin-top: 0.85rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .product-card .fit-note strong {
+      color: #dcc3ff;
+      font-weight: 600;
+    }
+
+    @media (min-width: 860px) {
+      .shop-hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      .shop-layout {
+        grid-template-columns: 300px 1fr;
+      }
+
+      .shop-summary {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition" aria-hidden="true"></div>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-shell glass">
+      <a href="index.html" class="brand" aria-label="AURACAL home">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AURACAL</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html" class="nav-link" data-page-link>Home</a>
+        <a href="shop.html" class="nav-link active" data-page-link>Shop</a>
+        <a href="blog.html" class="nav-link" data-page-link>Journal</a>
+        <a href="contact.html" class="nav-link" data-page-link>Contact</a>
+        <a href="auth.html" class="nav-link" data-page-link>Account</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="ghost-btn" type="button" data-open-fit>Smart Fit</button>
+        <button class="ghost-btn" type="button" data-open-size-chart>Size Chart</button>
+        <a href="cart.html" class="cart-link glass" data-page-link aria-label="View cart">
+          <span>Cart</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
+        >
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu glass" id="mobileMenu">
+      <a href="index.html" class="mobile-link" data-page-link>Home</a>
+      <a href="shop.html" class="mobile-link active" data-page-link>Shop</a>
+      <a href="cart.html" class="mobile-link" data-page-link>Cart</a>
+      <a href="blog.html" class="mobile-link" data-page-link>Journal</a>
+      <a href="auth.html" class="mobile-link" data-page-link>Account</a>
+      <a href="contact.html" class="mobile-link" data-page-link>Contact</a>
+
+      <div class="mobile-menu-actions">
+        <button class="primary-btn" type="button" data-open-fit>Open Smart Fit</button>
+        <button class="ghost-btn full-width" type="button" data-open-size-chart>
+          View Size Chart
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="shop-hero section-space">
+      <div class="container shop-hero-grid">
+        <div class="shop-hero-copy reveal">
+          <span class="eyebrow glass">AURACAL Product System</span>
+          <h1>
+            Precision pieces for
+            <span class="gradient-text">future movement.</span>
+          </h1>
+          <p>
+            Explore engineered outerwear, performance knits, and utility-driven essentials.
+            Each product is designed around a premium silhouette, low-impact materials,
+            and a quiet luxury visual language.
+          </p>
+        </div>
+
+        <aside class="shop-hero-panel glass reveal delay-1">
+          <span class="tiny-label">Shopping intelligence</span>
+          <p>
+            Use category filters to refine the collection, then open Smart Fit for an instant size recommendation.
+          </p>
+          <div class="hero-cta">
+            <button type="button" class="primary-btn" data-open-fit>Launch Smart Fit</button>
+            <button type="button" class="ghost-btn" data-open-size-chart>Open Size Chart</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="container">
+        <div class="shop-layout">
+          <aside class="shop-sidebar glass reveal">
+            <h3>Collection filters</h3>
+            <p>
+              Curate the storefront by product family. Hover each product for an alternate view.
+            </p>
+
+            <div class="sidebar-stack">
+              <div class="sidebar-meta">
+                <span>Material Direction</span>
+                <strong>Low-impact technical fabrics</strong>
+              </div>
+              <div class="sidebar-meta">
+                <span>Fit Experience</span>
+                <strong>Smart Fit + dynamic chart</strong>
+              </div>
+              <div class="sidebar-meta">
+                <span>Design Language</span>
+                <strong>Quiet futurism, glass, precision</strong>
+              </div>
+            </div>
+          </aside>
+
+          <div class="shop-content">
+            <div class="shop-summary glass reveal delay-1">
+              <div>
+                <h3>Refined product grid</h3>
+                <p>
+                  Select a category to instantly filter the collection with no reload.
+                </p>
+              </div>
+
+              <div class="shop-summary-bar">
+                <span class="result-count" id="resultCount">Showing 8 products</span>
+                <button class="ghost-btn" type="button" data-open-fit>Find My Best Size</button>
+              </div>
+            </div>
+
+            <div class="shop-toolbar reveal delay-2">
+              <div class="filter-row" aria-label="Product category filters">
+                <button class="filter-chip is-active" type="button" data-filter="all">All</button>
+                <button class="filter-chip" type="button" data-filter="outerwear">Outerwear</button>
+                <button class="filter-chip" type="button" data-filter="tops">Tops</button>
+                <button class="filter-chip" type="button" data-filter="bottoms">Bottoms</button>
+                <button class="filter-chip" type="button" data-filter="accessories">Accessories</button>
+              </div>
+            </div>
+
+            <div class="product-grid" id="shopProductGrid">
+              <article class="product-card glass reveal" data-category="outerwear">
+                <div class="product-media">
+                  <img
+                    class="primary-img"
+                    src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80"
+                    alt="Void Shell Jacket front view"
+                  />
+                  <img
+                    class="secondary-img"
+                    src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80"
+                    alt="Void Shell Jacket alternate view"
+                  />
+                  <span class="product-badge">New</span>
+                </div>
+                <div class="product-info">
+                  <div class="product-meta-top">
+                    <span>Outerwear</span>
+                    <span>$248</span>
+                  </div>
+                  <h3>Void Shell Jacket</h3>
+                  <p>Featherlight structure, magnetic closure language, and weather-ready elegance.</p>
+                  <div class="product-actions">
+                    <button
+                      class="primary-btn compact"
+                      type="button"
+                      data-add-to-cart
+                      data-id="void-shell-jacket"
+                      data-name="Void Shell Jacket"
+                      data-price="248"
+                      data-image="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80"
+                    >
+                      Add to Cart
+                    </button>
+                    <button class="ghost-btn compact" type="button" data-open-size-chart>
+                      Size Chart
+                    </button>
+                  </div>
+                  <div class="fit-note"><strong>Fit note:</strong> Tailored shell with room for premium layering.</div>
+                </div>
+              </article>
+
+              <article class="product-card glass reveal delay-1" data-category="tops">
+                <div class="product-media">
+                  <img
+                    class="primary-img"
+                    src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80"
+                    alt="Aether Knit Top front view"
+                  />
+                  <img
+                    class="secondary-img"
+                    src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80"
+                    alt="Aether Knit Top alternate view"
+                  />
+                  <span class="product-badge">Best Seller</span>
+                </div>
+                <div class="product-info">
+                  <div class="product-meta-top">
+                    <span>Performance Knit</span>
+                    <span>$118</span>
+                  </div>
+                  <h3>Aether Knit Top</h3>
+                  <p>Cooling stretch knit with a refined hand-feel and soft minimal drape.</p>
+                  <div class="product-actions">
+                    <button
+                      class="primary-btn compact"
+                      type="button"
+                      data-add-to-cart
+                      data-id="aether-knit-top"
+                      data-name="Aether Knit Top"
+                      data-price="118"
+                      data-image="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80"
+                    >
+                      Add to Cart
+                    </button>
+                    <button class="ghost-btn compact" type="button" data-open-size-chart>
+                      Size Chart
+                    </button>
+                  </div>
+                  <div class="fit-note"><strong>Fit note:</strong> Close to body with elegant flexibility.</div>
+                </div>
+              </article>
+
+              <article class="product-card glass reveal delay-2" data-category="bottoms">
+                <div class="product-media">
+                  <img
+                    class="primary-img"
+                    src="https://images.unsplash.com/photo-1506629905607-45f886f8ff46?auto=format&fit=crop&w=900&q=80"
+                    alt="Phase Utility Trousers front view"
+                  />
+                  <img
+                    class="secondary-img"
+                    src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80"
+                    alt="Phase Utility Trousers alternate view"
+                  />
+                  <span class="product-badge">Limited</span>
+                </div>
+                <div class="product-info">
+                  <div class="product-meta-top">
+                    <span>Utility Bottoms</span>
+                    <span>$164</span>
+                  </div>
+                  <h3>Phase Utility Trousers</h3>
+                  <p>Sharp utility tailoring, hidden storage, and fluid luxury movement.</p>
+                  <div class="product-actions">
+                    <button
+                      class="primary-btn compact"
+                      type="button"
+                      data-add-to-cart
+                      data-id="phase-utility-trousers"
+                      data-name="Phase Utility Trousers"
+                      data-price="164"
+                      data-image="https://images.unsplash.com/photo-1506629905607-45f886f8ff46?auto=format&fit=crop&w=900&q=80"
+                    >
+                      Add to Cart
+                    </button>
+                    <button class="ghost-btn compact" type="button" data-open-size-chart>
+                      Size Chart
+                    </button>
+                  </div>
+                  <div class="fit-note"><strong>Fit note:</strong> Relaxed utility cut with clean tapering.</div>
+                </div>
+              </article>
+
+              <article class="product-card glass reveal" data-category="outerwear">
+                <div class="product-media">
+                  <img
+                    class="primary-img"
+                    src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80"
+                    alt="Nova Layer Trench front view"
+                  />
+                  <img
+                    class="secondary-img"
+                    src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=900&q=80"
+                    alt="Nova Layer Trench alternate view"
+                  />
+                  <span class="product-badge">Capsule</span>
+                </div>
+                <div class="product-info">
+                  <div class="product-meta-top">
+                    <span>Outerwear</span>
+                    <span>$286</span>
+                  </div>
+                  <h3>Nova Layer Trench</h3>
+                  <p>Architectural outer layer with minimalist storm protection and long-flow drape.</p>
+                  <div class="product-actions">
+                    <button
+                      class="primary-btn compact"
+                      type="button"
+                      data-add-to-cart
+                      data-id="nova-layer-trench"
+                      data-name="Nova Layer Trench"
+                      data-price="286"
+                      data-image="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80"
+                    >
+                      Add to Cart
+                    </button>
+                    <button class="ghost-btn compact" type="button" data-open-size-chart>
+                      Size Chart
+                    </button>
+                  </div>
+                  <div class="fit-note"><strong>Fit note:</strong> Designed for a longer, dramatic silhouette.</div>
+                </div>
+              </article>
+
+              <article class="product-card glass reveal delay-1" data-category="tops">
+                <div class="product-media">
+                  <img
+                    class="primary-img"
+                    src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80"
+                    alt="Halo Base Tee front view"
+                  />
+                  <img
+                    class="secondary-img"
+                    src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=80"
+                    alt="Halo Base Tee alternate view"
+                  />
+                  <span class="product-badge">Core</span>
+                </div>
+                <div class="product-info">
+                  <div class="product-meta-top">
+                    <span>Core Essential</span>
+                    <span>$84</span>
+                  </div>
+                  <h3>Halo Base Tee</h3>
+                  <p>Soft structure, premium weight, and a clean neckline for quiet daily luxury.</p>
+                  <div class="product-actions">
+                    <button
+                      class="primary-btn compact"
+                      type="button"
+                      data-add-to-cart
+                      data-id="halo-base-tee"
+                      data-name="Halo Base Tee"
+                      data-price="84"
+                      data-image="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80"
+                    >
+                      Add to Cart
+                    </button>
+                    <button class="ghost-btn compact" type="button" data-open-size-chart>
+                      Size Chart
+                    </button>
+                  </div>
+                  <div class="fit-note"><strong>Fit note:</strong> Slightly tailored through chest and waist.</div>
+                </div>
+              </article>
+
+              <article class="product-card glass reveal delay-2" data-category="bottoms">
+                <div class="product-media">
+                  <img
+                    class="primary-img"
+                    src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80"
+                    alt="Drift Tailored Pants front view"
+                  />
+                  <img
+                    class="secondary-img"
+                    src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=900&q=80"
+                    alt="Drift Tailored Pants alternate view"
+                  />
+                  <span class="product-badge">Refined</span>
+                </div>
+                <div class="product-info">
+                  <div class="product-meta-top">
+                    <span>Tailored Bottoms</span>
+                    <span>$142</span>
+                  </div>
+                  <h3>Drift Tailored Pants</h3>
+                  <p>Precision leg shape with a fluid premium finish and all-day structure.</p>
+                  <div class="product-actions">
+                    <button
+                      class="primary-btn compact"
+                      type="button"
+                      data-add-to-cart
+                      data-id="drift-tailored-pants"
+                      data-name="Drift Tailored Pants"
+                      data-price="142"
+                      data-image="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80"
+                    >
+                      Add to Cart
+                    </button>
+                    <button class="ghost-btn compact" type="button" data-open-size-chart>
+                      Size Chart
+                    </button>
+                  </div>
+                  <div class="fit-note"><strong>Fit note:</strong> Balanced luxury taper, ideal for smart everyday styling.</div>
+                </div>
+              </article>
+
+              <article class="product-card glass reveal" data-category="accessories">
+                <div class="product-media">
+                  <img
+                    class="primary-img"
+                    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80"
+                    alt="Orbit Utility Pack front view"
+                  />
+                  <img
+                    class="secondary-img"
+                    src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=900&q=80"
+                    alt="Orbit Utility Pack alternate view"
+                  />
+                  <span class="product-badge">Utility</span>
+                </div>
+                <div class="product-info">
+                  <div class="product-meta-top">
+                    <span>Accessories</span>
+                    <span>$128</span>
+                  </div>
+                  <h3>Orbit Utility Pack</h3>
+                  <p>Compact storage architecture with clean geometry and a premium matte finish.</p>
+                  <div class="product-actions">
+                    <button
+                      class="primary-btn compact"
+                      type="button"
+                      data-add-to-cart
+                      data-id="orbit-utility-pack"
+                      data-name="Orbit Utility Pack"
+                      data-price="128"
+                      data-image="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80"
+                    >
+                      Add to Cart
+                    </button>
+                    <button class="ghost-btn compact" type="button" data-open-size-chart>
+                      Size Chart
+                    </button>
+                  </div>
+                  <div class="fit-note"><strong>Fit note:</strong> Designed to complement streamlined layering systems.</div>
+                </div>
+              </article>
+
+              <article class="product-card glass reveal delay-1" data-category="accessories">
+                <div class="product-media">
+                  <img
+                    class="primary-img"
+                    src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=900&q=80"
+                    alt="Spectra Crossbody front view"
+                  />
+                  <img
+                    class="secondary-img"
+                    src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80"
+                    alt="Spectra Crossbody alternate view"
+                  />
+                  <span class="product-badge">Minimal</span>
+                </div>
+                <div class="product-info">
+                  <div class="product-meta-top">
+                    <span>Accessories</span>
+                    <span>$94</span>
+                  </div>
+                  <h3>Spectra Crossbody</h3>
+                  <p>Elegant compact carry with subtle structure, clean straps, and modern utility.</p>
+                  <div class="product-actions">
+                    <button
+                      class="primary-btn compact"
+                      type="button"
+                      data-add-to-cart
+                      data-id="spectra-crossbody"
+                      data-name="Spectra Crossbody"
+                      data-price="94"
+                      data-image="https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=900&q=80"
+                    >
+                      Add to Cart
+                    </button>
+                    <button class="ghost-btn compact" type="button" data-open-size-chart>
+                      Size Chart
+                    </button>
+                  </div>
+                  <div class="fit-note"><strong>Fit note:</strong> Finishes a clean tech-luxury profile without visual bulk.</div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand" aria-label="AURACAL home">
+          <span class="brand-mark"></span>
+          <span class="brand-text">AURACAL</span>
+        </a>
+        <p class="footer-text">
+          Precision-crafted clothing for a refined, forward-moving lifestyle.
+        </p>
+      </div>
+
+      <div>
+        <h3>Navigate</h3>
+        <ul class="footer-links">
+          <li><a href="index.html" data-page-link>Home</a></li>
+          <li><a href="cart.html" data-page-link>Cart</a></li>
+          <li><a href="blog.html" data-page-link>Journal</a></li>
+          <li><a href="auth.html" data-page-link>Account</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><button type="button" class="footer-button" data-open-fit>Smart Fit</button></li>
+          <li><button type="button" class="footer-button" data-open-size-chart>Size Chart</button></li>
+          <li><a href="contact.html" data-page-link>Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Legal</h3>
+        <p class="footer-text muted">
+          © 2026 AURACAL. Designed with a minimalist luxury interface system.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Smart Fit Modal -->
+  <div class="modal" id="fitModal" aria-hidden="true" role="dialog" aria-labelledby="fitModalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass tech-modal">
+      <button class="modal-close" type="button" aria-label="Close Smart Fit modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">AURACAL Sizing Engine</span>
+        <h2 id="fitModalTitle">Smart Fit-On</h2>
+        <p>
+          Enter your measurements for an instant luxury-fit recommendation.
+        </p>
+      </div>
+
+      <div class="fit-modal-grid">
+        <form id="fitForm" class="fit-form">
+          <div class="input-group">
+            <label for="heightInput">Height (cm)</label>
+            <input type="number" id="heightInput" min="130" max="230" value="175" required />
+          </div>
+
+          <div class="input-group">
+            <label for="weightInput">Weight (kg)</label>
+            <input type="number" id="weightInput" min="35" max="180" value="72" required />
+          </div>
+
+          <div class="input-group">
+            <label for="bodyTypeInput">Body Type</label>
+            <select id="bodyTypeInput" required>
+              <option value="slim">Slim</option>
+              <option value="athletic">Athletic</option>
+              <option value="average" selected>Average</option>
+              <option value="broad">Broad</option>
+            </select>
+          </div>
+
+          <button class="primary-btn full-width" type="submit">Calculate My Fit</button>
+        </form>
+
+        <div class="fit-result-card glass">
+          <div class="fit-result-header">
+            <span class="tiny-label">Live Recommendation</span>
+            <span class="tiny-label subtle" id="fitProfileLabel">Average Build</span>
+          </div>
+
+          <div class="result-size" id="fitResultSize">M</div>
+          <p class="result-summary" id="fitResultSummary">
+            Designed for a balanced fit with refined everyday layering space.
+          </p>
+
+          <div class="result-metrics">
+            <div class="metric-box">
+              <span>Estimated Chest</span>
+              <strong id="fitChestEstimate">97 cm</strong>
+            </div>
+            <div class="metric-box">
+              <span>Estimated Waist</span>
+              <strong id="fitWaistEstimate">83 cm</strong>
+            </div>
+          </div>
+
+          <div class="result-note" id="fitResultNote">
+            For structured jackets, your recommended AURACAL top size is M.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size Chart Modal -->
+  <div class="modal" id="sizeChartModal" aria-hidden="true" role="dialog" aria-labelledby="sizeChartTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass size-chart-modal">
+      <button class="modal-close" type="button" aria-label="Close size chart modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">Precision size reference</span>
+        <h2 id="sizeChartTitle">Dynamic Size Chart</h2>
+        <p>
+          Compare chest and waist ranges in centimeters and inches.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Chest (cm)</th>
+              <th>Chest (in)</th>
+              <th>Waist (cm)</th>
+              <th>Waist (in)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS</td>
+              <td>84 - 89</td>
+              <td>33 - 35</td>
+              <td>70 - 74</td>
+              <td>27.5 - 29.1</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>90 - 95</td>
+              <td>35.4 - 37.4</td>
+              <td>75 - 79</td>
+              <td>29.5 - 31.1</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>96 - 101</td>
+              <td>37.8 - 39.8</td>
+              <td>80 - 85</td>
+              <td>31.5 - 33.5</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>102 - 108</td>
+              <td>40.2 - 42.5</td>
+              <td>86 - 92</td>
+              <td>33.9 - 36.2</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>109 - 116</td>
+              <td>42.9 - 45.7</td>
+              <td>93 - 100</td>
+              <td>36.6 - 39.4</td>
+            </tr>
+            <tr>
+              <td>XXL</td>
+              <td>117 - 124</td>
+              <td>46.1 - 48.8</td>
+              <td>101 - 108</td>
+              <td>39.8 - 42.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="chart-footnote">
+        Smart Fit uses these ranges as a visual guide and adjusts recommendations based on your selected body type.
+      </p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const filterButtons = document.querySelectorAll("[data-filter]");
+      const productCards = document.querySelectorAll("#shopProductGrid .product-card");
+      const resultCount = document.getElementById("resultCount");
+
+      function updateCount() {
+        const visibleCards = Array.from(productCards).filter(
+          (card) => !card.classList.contains("is-hidden")
+        ).length;
+
+        if (resultCount) {
+          resultCount.textContent = `Showing ${visibleCards} product${visibleCards !== 1 ? "s" : ""}`;
+        }
+      }
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter;
+
+          filterButtons.forEach((btn) => btn.classList.remove("is-active"));
+          button.classList.add("is-active");
+
+          productCards.forEach((card) => {
+            const category = card.dataset.category;
+            const shouldShow = filter === "all" || category === filter;
+            card.classList.toggle("is-hidden", !shouldShow);
+          });
+
+          updateCount();
+        });
+      });
+
+      updateCount();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURACAL — Futuristic Luxury Clothing</title>
+  <meta
+    name="description"
+    content="AURACAL is a premium futuristic clothing brand blending tech-wear aesthetics with sustainable minimalism."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-home">
+  <div class="page-transition" aria-hidden="true"></div>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-shell glass">
+      <a href="index.html" class="brand" aria-label="AURACAL home">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AURACAL</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html" class="nav-link active" data-page-link>Home</a>
+        <a href="shop.html" class="nav-link" data-page-link>Shop</a>
+        <a href="blog.html" class="nav-link" data-page-link>Journal</a>
+        <a href="contact.html" class="nav-link" data-page-link>Contact</a>
+        <a href="auth.html" class="nav-link" data-page-link>Account</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="ghost-btn" type="button" data-open-fit>
+          Smart Fit
+        </button>
+        <button class="ghost-btn" type="button" data-open-size-chart>
+          Size Chart
+        </button>
+        <a href="cart.html" class="cart-link glass" data-page-link aria-label="View cart">
+          <span>Cart</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
+        >
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu glass" id="mobileMenu">
+      <a href="index.html" class="mobile-link active" data-page-link>Home</a>
+      <a href="shop.html" class="mobile-link" data-page-link>Shop</a>
+      <a href="cart.html" class="mobile-link" data-page-link>Cart</a>
+      <a href="blog.html" class="mobile-link" data-page-link>Journal</a>
+      <a href="auth.html" class="mobile-link" data-page-link>Account</a>
+      <a href="contact.html" class="mobile-link" data-page-link>Contact</a>
+
+      <div class="mobile-menu-actions">
+        <button class="primary-btn" type="button" data-open-fit>Open Smart Fit</button>
+        <button class="ghost-btn full-width" type="button" data-open-size-chart>
+          View Size Chart
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section-space">
+      <div class="hero-media-wrap" aria-hidden="true">
+        <video
+          class="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          poster="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1600&q=80"
+        >
+          <source src="https://cdn.coverr.co/videos/coverr-model-walking-through-a-neon-lit-studio-1568654970154?download=1080p" type="video/mp4" />
+        </video>
+        <div class="hero-gradient"></div>
+      </div>
+
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <span class="eyebrow glass">Sustainable Tech-Wear · Elevated Minimalism</span>
+          <h1>
+            The future of luxury
+            <span class="gradient-text">worn lightly.</span>
+          </h1>
+          <p class="hero-text">
+            AURACAL engineers premium silhouettes for modern movement — precise tailoring,
+            recycled innovation, and a cinematic digital-first retail experience.
+          </p>
+
+          <div class="hero-cta">
+            <a href="shop.html" class="primary-btn" data-page-link>Explore Collection</a>
+            <button type="button" class="ghost-btn" data-open-fit>Find Your Ideal Fit</button>
+          </div>
+
+          <div class="hero-stats">
+            <article class="stat glass">
+              <strong>92%</strong>
+              <span>Recycled & low-impact materials</span>
+            </article>
+            <article class="stat glass">
+              <strong>48h</strong>
+              <span>Global dispatch on core essentials</span>
+            </article>
+            <article class="stat glass">
+              <strong>Smart Fit</strong>
+              <span>Instant size recommendations with live input</span>
+            </article>
+          </div>
+        </div>
+
+        <aside class="hero-panel glass reveal delay-1">
+          <div class="hero-panel-top">
+            <span class="tiny-label">Featured Drop</span>
+            <span class="tiny-label subtle">A/W 26 Capsule</span>
+          </div>
+
+          <div class="hero-product-card">
+            <div class="hero-product-image">
+              <img
+                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80"
+                alt="AURACAL featured techwear outfit"
+              />
+            </div>
+
+            <div class="hero-product-content">
+              <h2>Void Shell Jacket</h2>
+              <p>
+                Precision outerwear with storm-ready structure, magnetic seams,
+                and a fluid matte finish.
+              </p>
+
+              <div class="hero-product-meta">
+                <span>$248</span>
+                <button
+                  class="mini-action"
+                  type="button"
+                  data-add-to-cart
+                  data-id="void-shell-jacket"
+                  data-name="Void Shell Jacket"
+                  data-price="248"
+                  data-image="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="panel-link" data-open-size-chart>
+            Open Dynamic Size Chart
+          </button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="ticker-wrap">
+      <div class="ticker-track">
+        <span>Future Fabric Systems</span>
+        <span>•</span>
+        <span>Low-Impact Production</span>
+        <span>•</span>
+        <span>Precision Tailoring</span>
+        <span>•</span>
+        <span>Smart Fit Technology</span>
+        <span>•</span>
+        <span>Seasonless Luxury Essentials</span>
+        <span>•</span>
+        <span>Future Fabric Systems</span>
+        <span>•</span>
+        <span>Low-Impact Production</span>
+        <span>•</span>
+        <span>Precision Tailoring</span>
+      </div>
+    </section>
+
+    <section class="collections section-space">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Curated worlds</span>
+            <h2>Featured collections</h2>
+          </div>
+          <a href="shop.html" class="inline-link" data-page-link>Browse all products</a>
+        </div>
+
+        <div class="collection-grid">
+          <article class="collection-card large-card glass reveal">
+            <img
+              src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1200&q=80"
+              alt="Women wearing modern futuristic outerwear"
+            />
+            <div class="collection-content">
+              <span>01 / Outerwear</span>
+              <h3>Climate-adaptive silhouettes</h3>
+              <p>Architectural layering with fluid motion and a minimal profile.</p>
+            </div>
+          </article>
+
+          <article class="collection-card glass reveal delay-1">
+            <img
+              src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80"
+              alt="Minimal luxury streetwear set"
+            />
+            <div class="collection-content">
+              <span>02 / Essentials</span>
+              <h3>Core system dressing</h3>
+              <p>Quiet staples designed to mix, move, and last.</p>
+            </div>
+          </article>
+
+          <article class="collection-card glass reveal delay-2">
+            <img
+              src="https://images.unsplash.com/photo-1506629905607-45f886f8ff46?auto=format&fit=crop&w=900&q=80"
+              alt="Tech wear accessories and layered clothing"
+            />
+            <div class="collection-content">
+              <span>03 / Utility</span>
+              <h3>Accessories with intent</h3>
+              <p>Functional storage, magnetic closures, and engineered comfort.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured-products section-space">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Selected essentials</span>
+            <h2>Luxury pieces built for daily motion</h2>
+          </div>
+          <button class="ghost-btn" type="button" data-open-fit>Use Smart Fit Tool</button>
+        </div>
+
+        <div class="product-grid">
+          <article class="product-card glass reveal">
+            <div class="product-media">
+              <img
+                class="primary-img"
+                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80"
+                alt="Void Shell Jacket front view"
+              />
+              <img
+                class="secondary-img"
+                src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80"
+                alt="Void Shell Jacket alternate view"
+              />
+              <span class="product-badge">New</span>
+            </div>
+            <div class="product-info">
+              <div class="product-meta-top">
+                <span>Outerwear</span>
+                <span>$248</span>
+              </div>
+              <h3>Void Shell Jacket</h3>
+              <p>Water-resistant, featherlight, and sculpted for modern layering.</p>
+              <div class="product-actions">
+                <button
+                  class="primary-btn compact"
+                  type="button"
+                  data-add-to-cart
+                  data-id="void-shell-jacket"
+                  data-name="Void Shell Jacket"
+                  data-price="248"
+                  data-image="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80"
+                >
+                  Add to Cart
+                </button>
+                <button class="ghost-btn compact" type="button" data-open-size-chart>
+                  Size Chart
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card glass reveal delay-1">
+            <div class="product-media">
+              <img
+                class="primary-img"
+                src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80"
+                alt="Aether Knit top front view"
+              />
+              <img
+                class="secondary-img"
+                src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80"
+                alt="Aether Knit top alternate view"
+              />
+              <span class="product-badge">Best Seller</span>
+            </div>
+            <div class="product-info">
+              <div class="product-meta-top">
+                <span>Performance Knit</span>
+                <span>$118</span>
+              </div>
+              <h3>Aether Knit Top</h3>
+              <p>Cooling texture, silent luxury finish, and effortless stretch.</p>
+              <div class="product-actions">
+                <button
+                  class="primary-btn compact"
+                  type="button"
+                  data-add-to-cart
+                  data-id="aether-knit-top"
+                  data-name="Aether Knit Top"
+                  data-price="118"
+                  data-image="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80"
+                >
+                  Add to Cart
+                </button>
+                <button class="ghost-btn compact" type="button" data-open-size-chart>
+                  Size Chart
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card glass reveal delay-2">
+            <div class="product-media">
+              <img
+                class="primary-img"
+                src="https://images.unsplash.com/photo-1506629905607-45f886f8ff46?auto=format&fit=crop&w=900&q=80"
+                alt="Phase Utility Trousers front view"
+              />
+              <img
+                class="secondary-img"
+                src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80"
+                alt="Phase Utility Trousers alternate view"
+              />
+              <span class="product-badge">Limited</span>
+            </div>
+            <div class="product-info">
+              <div class="product-meta-top">
+                <span>Utility Bottoms</span>
+                <span>$164</span>
+              </div>
+              <h3>Phase Utility Trousers</h3>
+              <p>Sharp structure, hidden storage, and soft premium movement.</p>
+              <div class="product-actions">
+                <button
+                  class="primary-btn compact"
+                  type="button"
+                  data-add-to-cart
+                  data-id="phase-utility-trousers"
+                  data-name="Phase Utility Trousers"
+                  data-price="164"
+                  data-image="https://images.unsplash.com/photo-1506629905607-45f886f8ff46?auto=format&fit=crop&w=900&q=80"
+                >
+                  Add to Cart
+                </button>
+                <button class="ghost-btn compact" type="button" data-open-size-chart>
+                  Size Chart
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="smart-fit section-space">
+      <div class="container smart-fit-grid">
+        <div class="smart-fit-copy reveal">
+          <span class="eyebrow">Precision sizing</span>
+          <h2>Smart Fit-On tool</h2>
+          <p>
+            Enter your height, weight, and body type. AURACAL instantly recommends
+            the ideal fit profile using a clean sizing logic tailored for premium garments.
+          </p>
+
+          <ul class="fit-benefits">
+            <li>Instant size recommendation</li>
+            <li>Balanced for slim, athletic, average, and broad builds</li>
+            <li>Chest and waist estimate preview</li>
+            <li>Integrated with the cart flow foundation</li>
+          </ul>
+
+          <div class="hero-cta">
+            <button class="primary-btn" type="button" data-open-fit>
+              Launch Smart Fit
+            </button>
+            <button class="ghost-btn" type="button" data-open-size-chart>
+              Compare With Size Chart
+            </button>
+          </div>
+        </div>
+
+        <div class="fit-preview glass reveal delay-1">
+          <div class="fit-preview-top">
+            <span class="tiny-label">Live Demo</span>
+            <span class="tiny-label subtle">AURACAL Sizing Engine</span>
+          </div>
+
+          <div class="fit-meter">
+            <div class="fit-meter-track">
+              <div class="fit-meter-fill" id="fitMeterFill"></div>
+            </div>
+            <div class="fit-meter-labels">
+              <span>XS</span>
+              <span>S</span>
+              <span>M</span>
+              <span>L</span>
+              <span>XL</span>
+              <span>XXL</span>
+            </div>
+          </div>
+
+          <div class="fit-preview-result" id="fitPreviewResult">
+            <strong>Recommended size: M</strong>
+            <p>Balanced profile for everyday tailored comfort.</p>
+          </div>
+
+          <button class="panel-link left-align" type="button" data-open-fit>
+            Customize your body profile
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="journal-preview section-space">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">AURACAL Journal</span>
+            <h2>Fashion, function, and future materials</h2>
+          </div>
+          <a href="blog.html" class="inline-link" data-page-link>Read the journal</a>
+        </div>
+
+        <div class="journal-grid">
+          <article class="journal-card glass reveal">
+            <img
+              src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=80"
+              alt="Minimalist fashion editorial"
+            />
+            <div class="journal-content">
+              <span>Sustainability</span>
+              <h3>Why low-impact luxury is the next design standard</h3>
+              <p>Precision design and responsible production can coexist beautifully.</p>
+            </div>
+          </article>
+
+          <article class="journal-card glass reveal delay-1">
+            <img
+              src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=80"
+              alt="Modern fashion details"
+            />
+            <div class="journal-content">
+              <span>Materials</span>
+              <h3>The rise of performance fabrics in high-end wardrobes</h3>
+              <p>Texture, comfort, and technical resilience reshape everyday dressing.</p>
+            </div>
+          </article>
+
+          <article class="journal-card glass reveal delay-2">
+            <img
+              src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=80"
+              alt="Premium minimal clothing"
+            />
+            <div class="journal-content">
+              <span>Culture</span>
+              <h3>Quiet futurism: a new visual language for luxury fashion</h3>
+              <p>Soft contrast, engineered lines, and intentional simplicity define the mood.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="newsletter section-space">
+      <div class="container">
+        <div class="newsletter-box glass reveal">
+          <div class="newsletter-copy">
+            <span class="eyebrow">Private access</span>
+            <h2>Join the AURACAL inner circle</h2>
+            <p>
+              Receive launch alerts, exclusive capsule access, and editorial notes on future-forward design.
+            </p>
+          </div>
+
+          <form class="newsletter-form" id="newsletterForm">
+            <label class="sr-only" for="newsletterEmail">Email address</label>
+            <input
+              id="newsletterEmail"
+              type="email"
+              placeholder="Enter your email"
+              required
+            />
+            <button type="submit" class="primary-btn">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand" aria-label="AURACAL home">
+          <span class="brand-mark"></span>
+          <span class="brand-text">AURACAL</span>
+        </a>
+        <p class="footer-text">
+          Precision-crafted clothing for a refined, forward-moving lifestyle.
+        </p>
+      </div>
+
+      <div>
+        <h3>Navigate</h3>
+        <ul class="footer-links">
+          <li><a href="shop.html" data-page-link>Shop</a></li>
+          <li><a href="cart.html" data-page-link>Cart</a></li>
+          <li><a href="blog.html" data-page-link>Journal</a></li>
+          <li><a href="auth.html" data-page-link>Account</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><button type="button" class="footer-button" data-open-fit>Smart Fit</button></li>
+          <li><button type="button" class="footer-button" data-open-size-chart>Size Chart</button></li>
+          <li><a href="contact.html" data-page-link>Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Legal</h3>
+        <p class="footer-text muted">
+          © 2026 AURACAL. Designed with a minimalist luxury interface system.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Smart Fit Modal -->
+  <div class="modal" id="fitModal" aria-hidden="true" role="dialog" aria-labelledby="fitModalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass tech-modal">
+      <button class="modal-close" type="button" aria-label="Close Smart Fit modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">AURACAL Sizing Engine</span>
+        <h2 id="fitModalTitle">Smart Fit-On</h2>
+        <p>
+          Enter your measurements for an instant luxury-fit recommendation.
+        </p>
+      </div>
+
+      <div class="fit-modal-grid">
+        <form id="fitForm" class="fit-form">
+          <div class="input-group">
+            <label for="heightInput">Height (cm)</label>
+            <input type="number" id="heightInput" min="130" max="230" value="175" required />
+          </div>
+
+          <div class="input-group">
+            <label for="weightInput">Weight (kg)</label>
+            <input type="number" id="weightInput" min="35" max="180" value="72" required />
+          </div>
+
+          <div class="input-group">
+            <label for="bodyTypeInput">Body Type</label>
+            <select id="bodyTypeInput" required>
+              <option value="slim">Slim</option>
+              <option value="athletic">Athletic</option>
+              <option value="average" selected>Average</option>
+              <option value="broad">Broad</option>
+            </select>
+          </div>
+
+          <button class="primary-btn full-width" type="submit">Calculate My Fit</button>
+        </form>
+
+        <div class="fit-result-card glass">
+          <div class="fit-result-header">
+            <span class="tiny-label">Live Recommendation</span>
+            <span class="tiny-label subtle" id="fitProfileLabel">Average Build</span>
+          </div>
+
+          <div class="result-size" id="fitResultSize">M</div>
+          <p class="result-summary" id="fitResultSummary">
+            Designed for a balanced fit with refined everyday layering space.
+          </p>
+
+          <div class="result-metrics">
+            <div class="metric-box">
+              <span>Estimated Chest</span>
+              <strong id="fitChestEstimate">97 cm</strong>
+            </div>
+            <div class="metric-box">
+              <span>Estimated Waist</span>
+              <strong id="fitWaistEstimate">83 cm</strong>
+            </div>
+          </div>
+
+          <div class="result-note" id="fitResultNote">
+            For structured jackets, your recommended AURACAL top size is M.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size Chart Modal -->
+  <div class="modal" id="sizeChartModal" aria-hidden="true" role="dialog" aria-labelledby="sizeChartTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass size-chart-modal">
+      <button class="modal-close" type="button" aria-label="Close size chart modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">Precision size reference</span>
+        <h2 id="sizeChartTitle">Dynamic Size Chart</h2>
+        <p>
+          Compare chest and waist ranges in centimeters and inches.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Chest (cm)</th>
+              <th>Chest (in)</th>
+              <th>Waist (cm)</th>
+              <th>Waist (in)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS</td>
+              <td>84 - 89</td>
+              <td>33 - 35</td>
+              <td>70 - 74</td>
+              <td>27.5 - 29.1</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>90 - 95</td>
+              <td>35.4 - 37.4</td>
+              <td>75 - 79</td>
+              <td>29.5 - 31.1</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>96 - 101</td>
+              <td>37.8 - 39.8</td>
+              <td>80 - 85</td>
+              <td>31.5 - 33.5</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>102 - 108</td>
+              <td>40.2 - 42.5</td>
+              <td>86 - 92</td>
+              <td>33.9 - 36.2</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>109 - 116</td>
+              <td>42.9 - 45.7</td>
+              <td>93 - 100</td>
+              <td>36.6 - 39.4</td>
+            </tr>
+            <tr>
+              <td>XXL</td>
+              <td>117 - 124</td>
+              <td>46.1 - 48.8</td>
+              <td>101 - 108</td>
+              <td>39.8 - 42.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="chart-footnote">
+        Smart Fit uses these ranges as a visual guide and adjusts recommendations based on your selected body type.
+      </p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURACAL — Contact</title>
+  <meta
+    name="description"
+    content="Contact AURACAL for support, styling inquiries, brand questions, and premium customer assistance."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .contact-hero {
+      position: relative;
+      padding-top: 7rem;
+      overflow: hidden;
+    }
+
+    .contact-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(168, 85, 247, 0.16), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 85%);
+      pointer-events: none;
+    }
+
+    .contact-hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .contact-hero-copy h1 {
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin: 1rem 0 0;
+      max-width: 10ch;
+    }
+
+    .contact-hero-copy p {
+      max-width: 62ch;
+      color: var(--text-soft);
+      line-height: 1.8;
+      margin: 1rem 0 0;
+    }
+
+    .contact-hero-panel {
+      border-radius: var(--radius-xl);
+      padding: 1.2rem;
+    }
+
+    .contact-hero-panel p {
+      color: var(--text-soft);
+      line-height: 1.8;
+      margin: 0.85rem 0 1rem;
+    }
+
+    .contact-layout {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .contact-form-card,
+    .contact-info-card,
+    .contact-note-card,
+    .contact-mini-card {
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+    }
+
+    .contact-form-head h2,
+    .contact-info-card h3,
+    .contact-note-card h3 {
+      margin: 0;
+    }
+
+    .contact-form-head p,
+    .contact-info-card p,
+    .contact-note-card p {
+      color: var(--text-soft);
+      line-height: 1.8;
+      margin: 0.8rem 0 0;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 0.95rem;
+      margin-top: 1.35rem;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .floating-group {
+      position: relative;
+    }
+
+    .floating-input,
+    .floating-textarea,
+    .floating-select {
+      width: 100%;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--white);
+      padding: 1.25rem 1rem 0.8rem;
+      outline: none;
+      transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+    }
+
+    .floating-textarea {
+      min-height: 160px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    .floating-input:focus,
+    .floating-textarea:focus,
+    .floating-select:focus {
+      border-color: rgba(168, 85, 247, 0.55);
+      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .floating-label {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition:
+        top var(--transition),
+        font-size var(--transition),
+        color var(--transition),
+        transform var(--transition);
+    }
+
+    .floating-input:focus + .floating-label,
+    .floating-input:not(:placeholder-shown) + .floating-label,
+    .floating-input:valid + .floating-label,
+    .floating-textarea:focus + .floating-label,
+    .floating-textarea:not(:placeholder-shown) + .floating-label,
+    .floating-textarea:valid + .floating-label,
+    .floating-select + .floating-label {
+      top: 0.5rem;
+      font-size: 0.74rem;
+      color: #dbc3ff;
+      transform: translateY(0);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .contact-check {
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .contact-check input {
+      margin-top: 0.2rem;
+      accent-color: var(--accent);
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.2rem;
+    }
+
+    .contact-side {
+      display: grid;
+      gap: 1rem;
+      align-self: start;
+    }
+
+    .contact-stack {
+      display: grid;
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .contact-mini-card {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .contact-mini-card span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.35rem;
+    }
+
+    .contact-mini-card strong,
+    .contact-mini-card a {
+      color: var(--white);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .contact-mini-card a {
+      transition: color var(--transition);
+    }
+
+    .contact-mini-card a:hover {
+      color: #e1cbff;
+    }
+
+    .contact-note-card {
+      background:
+        linear-gradient(180deg, rgba(168, 85, 247, 0.08), rgba(168, 85, 247, 0.03)),
+        rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+    }
+
+    .contact-note-list {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .contact-note-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: #ebdfff;
+    }
+
+    .contact-note-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .contact-note-item span {
+      color: #cdb7ec;
+    }
+
+    @media (min-width: 760px) {
+      .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 980px) {
+      .contact-hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      .contact-layout {
+        grid-template-columns: 1.08fr 0.92fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition" aria-hidden="true"></div>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-shell glass">
+      <a href="index.html" class="brand" aria-label="AURACAL home">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AURACAL</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html" class="nav-link" data-page-link>Home</a>
+        <a href="shop.html" class="nav-link" data-page-link>Shop</a>
+        <a href="blog.html" class="nav-link" data-page-link>Journal</a>
+        <a href="contact.html" class="nav-link active" data-page-link>Contact</a>
+        <a href="auth.html" class="nav-link" data-page-link>Account</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="ghost-btn" type="button" data-open-fit>Smart Fit</button>
+        <button class="ghost-btn" type="button" data-open-size-chart>Size Chart</button>
+        <a href="cart.html" class="cart-link glass" data-page-link aria-label="View cart">
+          <span>Cart</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
+        >
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu glass" id="mobileMenu">
+      <a href="index.html" class="mobile-link" data-page-link>Home</a>
+      <a href="shop.html" class="mobile-link" data-page-link>Shop</a>
+      <a href="cart.html" class="mobile-link" data-page-link>Cart</a>
+      <a href="blog.html" class="mobile-link" data-page-link>Journal</a>
+      <a href="auth.html" class="mobile-link" data-page-link>Account</a>
+      <a href="contact.html" class="mobile-link active" data-page-link>Contact</a>
+
+      <div class="mobile-menu-actions">
+        <button class="primary-btn" type="button" data-open-fit>Open Smart Fit</button>
+        <button class="ghost-btn full-width" type="button" data-open-size-chart>
+          View Size Chart
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="contact-hero section-space">
+      <div class="container contact-hero-grid">
+        <div class="contact-hero-copy reveal">
+          <span class="eyebrow glass">AURACAL Support & Inquiries</span>
+          <h1>
+            Let’s connect
+            <span class="gradient-text">with clarity.</span>
+          </h1>
+          <p>
+            Reach out for order support, styling questions, sizing guidance, collaborations,
+            or premium brand inquiries through a clean, high-end contact experience.
+          </p>
+        </div>
+
+        <aside class="contact-hero-panel glass reveal delay-1">
+          <span class="tiny-label">Premium contact flow</span>
+          <p>
+            The form below uses floating labels, refined spacing, and a polished minimal interface
+            aligned with AURACAL’s quiet luxury aesthetic.
+          </p>
+          <div class="hero-cta">
+            <button type="button" class="primary-btn" data-open-fit>Open Smart Fit</button>
+            <button type="button" class="ghost-btn" data-open-size-chart>View Size Chart</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="container">
+        <div class="contact-layout">
+          <section class="contact-form-card glass reveal">
+            <div class="contact-form-head">
+              <span class="eyebrow">Send a message</span>
+              <h2>Contact AURACAL</h2>
+              <p>
+                Submit your request and the AURACAL team will respond with the right support path.
+              </p>
+            </div>
+
+            <form class="contact-form" id="contactForm">
+              <div class="form-grid">
+                <div class="floating-group">
+                  <input
+                    class="floating-input"
+                    type="text"
+                    id="contactName"
+                    name="name"
+                    placeholder=" "
+                    required
+                  />
+                  <label class="floating-label" for="contactName">Full name</label>
+                </div>
+
+                <div class="floating-group">
+                  <input
+                    class="floating-input"
+                    type="email"
+                    id="contactEmail"
+                    name="email"
+                    placeholder=" "
+                    required
+                  />
+                  <label class="floating-label" for="contactEmail">Email address</label>
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="floating-group">
+                  <input
+                    class="floating-input"
+                    type="text"
+                    id="contactOrder"
+                    name="order"
+                    placeholder=" "
+                  />
+                  <label class="floating-label" for="contactOrder">Order number (optional)</label>
+                </div>
+
+                <div class="floating-group">
+                  <select class="floating-select" id="contactTopic" name="topic" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="order-support">Order Support</option>
+                    <option value="sizing-help">Sizing Help</option>
+                    <option value="product-question">Product Question</option>
+                    <option value="returns">Returns & Exchange</option>
+                    <option value="partnership">Partnership / Collaboration</option>
+                    <option value="general">General Inquiry</option>
+                  </select>
+                  <label class="floating-label" for="contactTopic">Inquiry type</label>
+                </div>
+              </div>
+
+              <div class="floating-group">
+                <textarea
+                  class="floating-textarea"
+                  id="contactMessage"
+                  name="message"
+                  placeholder=" "
+                  required
+                ></textarea>
+                <label class="floating-label" for="contactMessage">Your message</label>
+              </div>
+
+              <label class="contact-check">
+                <input type="checkbox" required />
+                <span>
+                  I agree to be contacted regarding this request and understand this is a frontend demo form.
+                </span>
+              </label>
+
+              <div class="contact-actions">
+                <button type="submit" class="primary-btn">Send Message</button>
+                <a href="shop.html" class="ghost-btn" data-page-link>Back to Shop</a>
+              </div>
+            </form>
+          </section>
+
+          <aside class="contact-side">
+            <section class="contact-info-card glass reveal delay-1">
+              <h3>Support channels</h3>
+              <p>
+                Use the contact form or reach the AURACAL team through the channels below.
+              </p>
+
+              <div class="contact-stack">
+                <div class="contact-mini-card">
+                  <span>Email</span>
+                  <a href="mailto:support@auracal.com">support@auracal.com</a>
+                </div>
+
+                <div class="contact-mini-card">
+                  <span>Client care</span>
+                  <strong>Mon – Fri · 9:00 AM – 6:00 PM</strong>
+                </div>
+
+                <div class="contact-mini-card">
+                  <span>Studio inquiries</span>
+                  <a href="mailto:studio@auracal.com">studio@auracal.com</a>
+                </div>
+
+                <div class="contact-mini-card">
+                  <span>Social</span>
+                  <strong>@auracal.world</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="contact-note-card reveal delay-2">
+              <h3>Response expectations</h3>
+              <p>
+                Premium support is structured around product clarity, sizing confidence,
+                and a smooth post-purchase experience.
+              </p>
+
+              <div class="contact-note-list">
+                <div class="contact-note-item">
+                  <span>Order support</span>
+                  <strong>Typically within 24 hours</strong>
+                </div>
+                <div class="contact-note-item">
+                  <span>Sizing guidance</span>
+                  <strong>Use Smart Fit before messaging</strong>
+                </div>
+                <div class="contact-note-item">
+                  <span>Collaborations</span>
+                  <strong>Editorial and brand review required</strong>
+                </div>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand" aria-label="AURACAL home">
+          <span class="brand-mark"></span>
+          <span class="brand-text">AURACAL</span>
+        </a>
+        <p class="footer-text">
+          Precision-crafted clothing for a refined, forward-moving lifestyle.
+        </p>
+      </div>
+
+      <div>
+        <h3>Navigate</h3>
+        <ul class="footer-links">
+          <li><a href="index.html" data-page-link>Home</a></li>
+          <li><a href="shop.html" data-page-link>Shop</a></li>
+          <li><a href="cart.html" data-page-link>Cart</a></li>
+          <li><a href="blog.html" data-page-link>Journal</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><button type="button" class="footer-button" data-open-fit>Smart Fit</button></li>
+          <li><button type="button" class="footer-button" data-open-size-chart>Size Chart</button></li>
+          <li><a href="contact.html" data-page-link>Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Legal</h3>
+        <p class="footer-text muted">
+          © 2026 AURACAL. Designed with a minimalist luxury interface system.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Smart Fit Modal -->
+  <div class="modal" id="fitModal" aria-hidden="true" role="dialog" aria-labelledby="fitModalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass tech-modal">
+      <button class="modal-close" type="button" aria-label="Close Smart Fit modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">AURACAL Sizing Engine</span>
+        <h2 id="fitModalTitle">Smart Fit-On</h2>
+        <p>
+          Enter your measurements for an instant luxury-fit recommendation.
+        </p>
+      </div>
+
+      <div class="fit-modal-grid">
+        <form id="fitForm" class="fit-form">
+          <div class="input-group">
+            <label for="heightInput">Height (cm)</label>
+            <input type="number" id="heightInput" min="130" max="230" value="175" required />
+          </div>
+
+          <div class="input-group">
+            <label for="weightInput">Weight (kg)</label>
+            <input type="number" id="weightInput" min="35" max="180" value="72" required />
+          </div>
+
+          <div class="input-group">
+            <label for="bodyTypeInput">Body Type</label>
+            <select id="bodyTypeInput" required>
+              <option value="slim">Slim</option>
+              <option value="athletic">Athletic</option>
+              <option value="average" selected>Average</option>
+              <option value="broad">Broad</option>
+            </select>
+          </div>
+
+          <button class="primary-btn full-width" type="submit">Calculate My Fit</button>
+        </form>
+
+        <div class="fit-result-card glass">
+          <div class="fit-result-header">
+            <span class="tiny-label">Live Recommendation</span>
+            <span class="tiny-label subtle" id="fitProfileLabel">Average Build</span>
+          </div>
+
+          <div class="result-size" id="fitResultSize">M</div>
+          <p class="result-summary" id="fitResultSummary">
+            Designed for a balanced fit with refined everyday layering space.
+          </p>
+
+          <div class="result-metrics">
+            <div class="metric-box">
+              <span>Estimated Chest</span>
+              <strong id="fitChestEstimate">97 cm</strong>
+            </div>
+            <div class="metric-box">
+              <span>Estimated Waist</span>
+              <strong id="fitWaistEstimate">83 cm</strong>
+            </div>
+          </div>
+
+          <div class="result-note" id="fitResultNote">
+            For structured jackets, your recommended AURACAL top size is M.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size Chart Modal -->
+  <div class="modal" id="sizeChartModal" aria-hidden="true" role="dialog" aria-labelledby="sizeChartTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass size-chart-modal">
+      <button class="modal-close" type="button" aria-label="Close size chart modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">Precision size reference</span>
+        <h2 id="sizeChartTitle">Dynamic Size Chart</h2>
+        <p>
+          Compare chest and waist ranges in centimeters and inches.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Chest (cm)</th>
+              <th>Chest (in)</th>
+              <th>Waist (cm)</th>
+              <th>Waist (in)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS</td>
+              <td>84 - 89</td>
+              <td>33 - 35</td>
+              <td>70 - 74</td>
+              <td>27.5 - 29.1</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>90 - 95</td>
+              <td>35.4 - 37.4</td>
+              <td>75 - 79</td>
+              <td>29.5 - 31.1</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>96 - 101</td>
+              <td>37.8 - 39.8</td>
+              <td>80 - 85</td>
+              <td>31.5 - 33.5</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>102 - 108</td>
+              <td>40.2 - 42.5</td>
+              <td>86 - 92</td>
+              <td>33.9 - 36.2</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>109 - 116</td>
+              <td>42.9 - 45.7</td>
+              <td>93 - 100</td>
+              <td>36.6 - 39.4</td>
+            </tr>
+            <tr>
+              <td>XXL</td>
+              <td>117 - 124</td>
+              <td>46.1 - 48.8</td>
+              <td>101 - 108</td>
+              <td>39.8 - 42.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="chart-footnote">
+        Smart Fit uses these ranges as a visual guide and adjusts recommendations based on your selected body type.
+      </p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const contactForm = document.getElementById("contactForm");
+      const toast = document.getElementById("toast");
+
+      function showToast(message) {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2200);
+      }
+
+      if (contactForm) {
+        contactForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          contactForm.reset();
+          showToast("Message sent successfully. This demo is ready for backend integration.");
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURACAL — Account</title>
+  <meta
+    name="description"
+    content="Sign in or create your AURACAL account with a premium animated authentication experience."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .auth-page {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      padding-top: 7rem;
+    }
+
+    .auth-page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(168, 85, 247, 0.18), transparent 28%),
+        radial-gradient(circle at left center, rgba(255, 255, 255, 0.05), transparent 25%);
+      pointer-events: none;
+    }
+
+    .auth-shell {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .auth-copy {
+      padding: 1.2rem;
+      border-radius: var(--radius-xl);
+      display: grid;
+      align-content: center;
+      gap: 1rem;
+    }
+
+    .auth-copy h1 {
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin: 0;
+      max-width: 10ch;
+    }
+
+    .auth-copy p {
+      margin: 0;
+      max-width: 58ch;
+      color: var(--text-soft);
+      line-height: 1.85;
+    }
+
+    .auth-points {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .auth-point {
+      border-radius: 22px;
+      padding: 0.95rem 1rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .auth-point span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.35rem;
+    }
+
+    .auth-point strong {
+      color: var(--white);
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    .auth-card {
+      position: relative;
+      border-radius: 36px;
+      overflow: hidden;
+      min-height: 760px;
+      padding: 1rem;
+    }
+
+    .auth-stage {
+      position: relative;
+      min-height: 728px;
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .auth-panel {
+      position: absolute;
+      inset: 0;
+      padding: 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .auth-forms {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .auth-form-card {
+      border-radius: 28px;
+      padding: 1.25rem;
+      min-height: 100%;
+      display: grid;
+      align-content: start;
+      transition:
+        transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        opacity 500ms ease,
+        visibility 500ms ease;
+    }
+
+    .auth-form-card h2 {
+      margin: 0.7rem 0 0.5rem;
+      font-size: clamp(2rem, 4vw, 2.6rem);
+      line-height: 1.03;
+      letter-spacing: -0.04em;
+    }
+
+    .auth-form-card p {
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.8;
+    }
+
+    .auth-form {
+      display: grid;
+      gap: 0.9rem;
+      margin-top: 1.2rem;
+    }
+
+    .floating-group {
+      position: relative;
+    }
+
+    .floating-input {
+      width: 100%;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--white);
+      padding: 1.25rem 1rem 0.8rem;
+      outline: none;
+      transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+    }
+
+    .floating-input:focus {
+      border-color: rgba(168, 85, 247, 0.55);
+      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .floating-label {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition:
+        transform var(--transition),
+        font-size var(--transition),
+        color var(--transition),
+        top var(--transition);
+    }
+
+    .floating-input:focus + .floating-label,
+    .floating-input:not(:placeholder-shown) + .floating-label,
+    .floating-input:valid + .floating-label,
+    select.floating-input + .floating-label {
+      top: 0.5rem;
+      font-size: 0.74rem;
+      color: #dbc3ff;
+      transform: translateY(0);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .auth-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .auth-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+    }
+
+    .auth-check input {
+      accent-color: var(--accent);
+    }
+
+    .mini-link {
+      color: #dcc3ff;
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .mini-link:hover {
+      color: var(--white);
+      transform: translateX(2px);
+    }
+
+    .form-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0.2rem 0;
+    }
+
+    .form-divider::before,
+    .form-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    .social-row {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--white);
+      transition:
+        transform var(--transition),
+        border-color var(--transition),
+        background var(--transition);
+    }
+
+    .social-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .auth-switch-line {
+      margin-top: 0.4rem;
+      color: var(--text-soft);
+      line-height: 1.7;
+    }
+
+    .auth-switch-btn {
+      color: #dcc3ff;
+      font-weight: 600;
+      margin-left: 0.35rem;
+      transition: color var(--transition);
+    }
+
+    .auth-switch-btn:hover {
+      color: var(--white);
+    }
+
+    .auth-slider {
+      position: relative;
+      z-index: 2;
+      border-radius: 28px;
+      padding: 1.2rem;
+      display: grid;
+      align-content: space-between;
+      min-height: 260px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(168, 85, 247, 0.28), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      transition:
+        transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        opacity 600ms ease;
+    }
+
+    .auth-slider::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.04), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.22), transparent 35%);
+      pointer-events: none;
+    }
+
+    .auth-slider-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 1rem;
+      align-content: space-between;
+      height: 100%;
+    }
+
+    .auth-slider-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .auth-slider-title h3 {
+      margin: 0.85rem 0 0.5rem;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1.03;
+      letter-spacing: -0.04em;
+      max-width: 9ch;
+    }
+
+    .auth-slider-title p {
+      margin: 0;
+      color: #e7d8ff;
+      line-height: 1.8;
+      max-width: 46ch;
+    }
+
+    .slider-meta {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .slider-meta-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e8ddf7;
+    }
+
+    .slider-meta-item:last-child {
+      border-bottom: 0;
+    }
+
+    .slider-meta-item span {
+      color: #c7b2ea;
+    }
+
+    .auth-toggle-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .toggle-tab {
+      padding: 0.8rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--white);
+      transition:
+        transform var(--transition),
+        background var(--transition),
+        border-color var(--transition);
+    }
+
+    .toggle-tab:hover,
+    .toggle-tab.is-active {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    .register-card {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(40px);
+      position: absolute;
+      inset: 1.25rem;
+    }
+
+    .login-card {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      position: relative;
+      inset: auto;
+    }
+
+    .auth-stage.is-register .login-card {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-40px);
+      position: absolute;
+      inset: 1.25rem;
+    }
+
+    .auth-stage.is-register .register-card {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      position: relative;
+      inset: auto;
+    }
+
+    .auth-stage.is-register .auth-slider-title .login-copy,
+    .auth-slider-title .register-copy {
+      display: none;
+    }
+
+    .auth-stage.is-register .auth-slider-title .register-copy {
+      display: block;
+    }
+
+    .auth-stage:not(.is-register) .auth-slider-title .login-copy {
+      display: block;
+    }
+
+    .auth-stage.is-register .slider-login-meta,
+    .slider-register-meta {
+      display: none;
+    }
+
+    .auth-stage.is-register .slider-register-meta {
+      display: grid;
+    }
+
+    .auth-stage:not(.is-register) .slider-login-meta {
+      display: grid;
+    }
+
+    .auth-stage.is-register .tab-register {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    .auth-stage.is-register .tab-login {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    @media (min-width: 980px) {
+      .auth-shell {
+        grid-template-columns: 0.92fr 1.08fr;
+      }
+
+      .auth-card {
+        min-height: 780px;
+      }
+
+      .auth-panel {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .auth-forms {
+        order: 1;
+      }
+
+      .auth-slider {
+        order: 2;
+        min-height: auto;
+      }
+
+      .auth-stage.is-register .auth-slider {
+        transform: translateX(-100%);
+      }
+
+      .auth-stage:not(.is-register) .auth-slider {
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 979px) {
+      .auth-card {
+        min-height: auto;
+      }
+
+      .auth-stage {
+        min-height: auto;
+      }
+
+      .auth-panel {
+        position: relative;
+      }
+
+      .auth-slider {
+        order: 1;
+      }
+
+      .auth-forms {
+        order: 2;
+      }
+
+      .login-card,
+      .register-card,
+      .auth-stage.is-register .login-card,
+      .auth-stage.is-register .register-card {
+        position: relative;
+        inset: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition" aria-hidden="true"></div>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-shell glass">
+      <a href="index.html" class="brand" aria-label="AURACAL home">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AURACAL</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html" class="nav-link" data-page-link>Home</a>
+        <a href="shop.html" class="nav-link" data-page-link>Shop</a>
+        <a href="blog.html" class="nav-link" data-page-link>Journal</a>
+        <a href="contact.html" class="nav-link" data-page-link>Contact</a>
+        <a href="auth.html" class="nav-link active" data-page-link>Account</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="ghost-btn" type="button" data-open-fit>Smart Fit</button>
+        <button class="ghost-btn" type="button" data-open-size-chart>Size Chart</button>
+        <a href="cart.html" class="cart-link glass" data-page-link aria-label="View cart">
+          <span>Cart</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
+        >
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu glass" id="mobileMenu">
+      <a href="index.html" class="mobile-link" data-page-link>Home</a>
+      <a href="shop.html" class="mobile-link" data-page-link>Shop</a>
+      <a href="cart.html" class="mobile-link" data-page-link>Cart</a>
+      <a href="blog.html" class="mobile-link" data-page-link>Journal</a>
+      <a href="auth.html" class="mobile-link active" data-page-link>Account</a>
+      <a href="contact.html" class="mobile-link" data-page-link>Contact</a>
+
+      <div class="mobile-menu-actions">
+        <button class="primary-btn" type="button" data-open-fit>Open Smart Fit</button>
+        <button class="ghost-btn full-width" type="button" data-open-size-chart>
+          View Size Chart
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <section class="section-space">
+      <div class="container auth-shell">
+        <aside class="auth-copy glass reveal">
+          <span class="eyebrow">AURACAL Account Space</span>
+          <h1>
+            Enter the
+            <span class="gradient-text">future wardrobe system.</span>
+          </h1>
+          <p>
+            Sign in to manage your cart, save curated favorites, track your premium orders,
+            and keep your Smart Fit preferences aligned with your account experience.
+          </p>
+
+          <div class="auth-points">
+            <div class="auth-point">
+              <span>Saved sizing</span>
+              <strong>Keep fit preferences consistent across future purchases.</strong>
+            </div>
+            <div class="auth-point">
+              <span>Luxury flow</span>
+              <strong>Move between sign in and registration with a smooth animated transition.</strong>
+            </div>
+            <div class="auth-point">
+              <span>Storefront ready</span>
+              <strong>Frontend-only foundation prepared for backend auth integration later.</strong>
+            </div>
+          </div>
+        </aside>
+
+        <section class="auth-card glass reveal delay-1" aria-label="Authentication forms">
+          <div class="auth-stage" id="authStage">
+            <div class="auth-panel">
+              <div class="auth-forms">
+                <article class="auth-form-card glass login-card" id="loginCard">
+                  <span class="tiny-label">Member access</span>
+                  <h2>Sign in</h2>
+                  <p>
+                    Continue to your personal AURACAL space.
+                  </p>
+
+                  <form class="auth-form" id="loginForm">
+                    <div class="floating-group">
+                      <input
+                        class="floating-input"
+                        type="email"
+                        id="loginEmail"
+                        name="email"
+                        placeholder=" "
+                        required
+                      />
+                      <label class="floating-label" for="loginEmail">Email address</label>
+                    </div>
+
+                    <div class="floating-group">
+                      <input
+                        class="floating-input"
+                        type="password"
+                        id="loginPassword"
+                        name="password"
+                        placeholder=" "
+                        required
+                      />
+                      <label class="floating-label" for="loginPassword">Password</label>
+                    </div>
+
+                    <div class="auth-row">
+                      <label class="auth-check">
+                        <input type="checkbox" name="remember" />
+                        <span>Remember me</span>
+                      </label>
+
+                      <a href="#" class="mini-link">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="primary-btn full-width">Sign In</button>
+
+                    <div class="form-divider">or continue with</div>
+
+                    <div class="social-row">
+                      <button type="button" class="social-btn">Apple</button>
+                      <button type="button" class="social-btn">Google</button>
+                    </div>
+
+                    <p class="auth-switch-line">
+                      New to AURACAL?
+                      <button type="button" class="auth-switch-btn" data-switch-auth="register">
+                        Create account
+                      </button>
+                    </p>
+                  </form>
+                </article>
+
+                <article class="auth-form-card glass register-card" id="registerCard">
+                  <span class="tiny-label">New member setup</span>
+                  <h2>Create account</h2>
+                  <p>
+                    Build your AURACAL profile and begin your curated wardrobe journey.
+                  </p>
+
+                  <form class="auth-form" id="registerForm">
+                    <div class="floating-group">
+                      <input
+                        class="floating-input"
+                        type="text"
+                        id="registerName"
+                        name="fullname"
+                        placeholder=" "
+                        required
+                      />
+                      <label class="floating-label" for="registerName">Full name</label>
+                    </div>
+
+                    <div class="floating-group">
+                      <input
+                        class="floating-input"
+                        type="email"
+                        id="registerEmail"
+                        name="email"
+                        placeholder=" "
+                        required
+                      />
+                      <label class="floating-label" for="registerEmail">Email address</label>
+                    </div>
+
+                    <div class="floating-group">
+                      <input
+                        class="floating-input"
+                        type="password"
+                        id="registerPassword"
+                        name="password"
+                        placeholder=" "
+                        minlength="6"
+                        required
+                      />
+                      <label class="floating-label" for="registerPassword">Create password</label>
+                    </div>
+
+                    <div class="floating-group">
+                      <select class="floating-input" id="registerPreference" name="preference" required>
+                        <option value="" disabled selected hidden></option>
+                        <option value="minimal">Minimal luxury</option>
+                        <option value="techwear">Tech-wear essentials</option>
+                        <option value="outerwear">Premium outerwear</option>
+                        <option value="all">Entire collection</option>
+                      </select>
+                      <label class="floating-label" for="registerPreference">Style interest</label>
+                    </div>
+
+                    <label class="auth-check">
+                      <input type="checkbox" name="terms" required />
+                      <span>I agree to the AURACAL account and privacy terms.</span>
+                    </label>
+
+                    <button type="submit" class="primary-btn full-width">Create Account</button>
+
+                    <p class="auth-switch-line">
+                      Already have an account?
+                      <button type="button" class="auth-switch-btn" data-switch-auth="login">
+                        Sign in
+                      </button>
+                    </p>
+                  </form>
+                </article>
+              </div>
+
+              <aside class="auth-slider" aria-hidden="true">
+                <div class="auth-slider-content">
+                  <div>
+                    <div class="auth-slider-top">
+                      <span class="eyebrow glass">Account Experience</span>
+                    </div>
+
+                    <div class="auth-slider-title">
+                      <div class="login-copy">
+                        <h3>Welcome back to refined digital luxury.</h3>
+                        <p>
+                          Re-enter your account to continue shopping, revisit your cart,
+                          and keep your sizing flow seamless.
+                        </p>
+                      </div>
+
+                      <div class="register-copy">
+                        <h3>Create your personal AURACAL profile.</h3>
+                        <p>
+                          Start a premium account experience with saved style direction,
+                          fit confidence, and a smoother checkout path.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="slider-meta slider-login-meta">
+                      <div class="slider-meta-item">
+                        <span>Saved cart</span>
+                        <strong>Persistent selection flow</strong>
+                      </div>
+                      <div class="slider-meta-item">
+                        <span>Smart Fit ready</span>
+                        <strong>Better size confidence</strong>
+                      </div>
+                      <div class="slider-meta-item">
+                        <span>Order tracking</span>
+                        <strong>Prepared for backend integration</strong>
+                      </div>
+                    </div>
+
+                    <div class="slider-meta slider-register-meta">
+                      <div class="slider-meta-item">
+                        <span>New profile</span>
+                        <strong>Personalized account setup</strong>
+                      </div>
+                      <div class="slider-meta-item">
+                        <span>Style preference</span>
+                        <strong>Curated luxury discovery</strong>
+                      </div>
+                      <div class="slider-meta-item">
+                        <span>Future ready</span>
+                        <strong>Expandable auth foundation</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="auth-toggle-actions">
+                    <button type="button" class="toggle-tab tab-login is-active" data-switch-auth="login">
+                      Sign In
+                    </button>
+                    <button type="button" class="toggle-tab tab-register" data-switch-auth="register">
+                      Register
+                    </button>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand" aria-label="AURACAL home">
+          <span class="brand-mark"></span>
+          <span class="brand-text">AURACAL</span>
+        </a>
+        <p class="footer-text">
+          Precision-crafted clothing for a refined, forward-moving lifestyle.
+        </p>
+      </div>
+
+      <div>
+        <h3>Navigate</h3>
+        <ul class="footer-links">
+          <li><a href="index.html" data-page-link>Home</a></li>
+          <li><a href="shop.html" data-page-link>Shop</a></li>
+          <li><a href="cart.html" data-page-link>Cart</a></li>
+          <li><a href="blog.html" data-page-link>Journal</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><button type="button" class="footer-button" data-open-fit>Smart Fit</button></li>
+          <li><button type="button" class="footer-button" data-open-size-chart>Size Chart</button></li>
+          <li><a href="contact.html" data-page-link>Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Legal</h3>
+        <p class="footer-text muted">
+          © 2026 AURACAL. Designed with a minimalist luxury interface system.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Smart Fit Modal -->
+  <div class="modal" id="fitModal" aria-hidden="true" role="dialog" aria-labelledby="fitModalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass tech-modal">
+      <button class="modal-close" type="button" aria-label="Close Smart Fit modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">AURACAL Sizing Engine</span>
+        <h2 id="fitModalTitle">Smart Fit-On</h2>
+        <p>
+          Enter your measurements for an instant luxury-fit recommendation.
+        </p>
+      </div>
+
+      <div class="fit-modal-grid">
+        <form id="fitForm" class="fit-form">
+          <div class="input-group">
+            <label for="heightInput">Height (cm)</label>
+            <input type="number" id="heightInput" min="130" max="230" value="175" required />
+          </div>
+
+          <div class="input-group">
+            <label for="weightInput">Weight (kg)</label>
+            <input type="number" id="weightInput" min="35" max="180" value="72" required />
+          </div>
+
+          <div class="input-group">
+            <label for="bodyTypeInput">Body Type</label>
+            <select id="bodyTypeInput" required>
+              <option value="slim">Slim</option>
+              <option value="athletic">Athletic</option>
+              <option value="average" selected>Average</option>
+              <option value="broad">Broad</option>
+            </select>
+          </div>
+
+          <button class="primary-btn full-width" type="submit">Calculate My Fit</button>
+        </form>
+
+        <div class="fit-result-card glass">
+          <div class="fit-result-header">
+            <span class="tiny-label">Live Recommendation</span>
+            <span class="tiny-label subtle" id="fitProfileLabel">Average Build</span>
+          </div>
+
+          <div class="result-size" id="fitResultSize">M</div>
+          <p class="result-summary" id="fitResultSummary">
+            Designed for a balanced fit with refined everyday layering space.
+          </p>
+
+          <div class="result-metrics">
+            <div class="metric-box">
+              <span>Estimated Chest</span>
+              <strong id="fitChestEstimate">97 cm</strong>
+            </div>
+            <div class="metric-box">
+              <span>Estimated Waist</span>
+              <strong id="fitWaistEstimate">83 cm</strong>
+            </div>
+          </div>
+
+          <div class="result-note" id="fitResultNote">
+            For structured jackets, your recommended AURACAL top size is M.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size Chart Modal -->
+  <div class="modal" id="sizeChartModal" aria-hidden="true" role="dialog" aria-labelledby="sizeChartTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass size-chart-modal">
+      <button class="modal-close" type="button" aria-label="Close size chart modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">Precision size reference</span>
+        <h2 id="sizeChartTitle">Dynamic Size Chart</h2>
+        <p>
+          Compare chest and waist ranges in centimeters and inches.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Chest (cm)</th>
+              <th>Chest (in)</th>
+              <th>Waist (cm)</th>
+              <th>Waist (in)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS</td>
+              <td>84 - 89</td>
+              <td>33 - 35</td>
+              <td>70 - 74</td>
+              <td>27.5 - 29.1</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>90 - 95</td>
+              <td>35.4 - 37.4</td>
+              <td>75 - 79</td>
+              <td>29.5 - 31.1</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>96 - 101</td>
+              <td>37.8 - 39.8</td>
+              <td>80 - 85</td>
+              <td>31.5 - 33.5</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>102 - 108</td>
+              <td>40.2 - 42.5</td>
+              <td>86 - 92</td>
+              <td>33.9 - 36.2</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>109 - 116</td>
+              <td>42.9 - 45.7</td>
+              <td>93 - 100</td>
+              <td>36.6 - 39.4</td>
+            </tr>
+            <tr>
+              <td>XXL</td>
+              <td>117 - 124</td>
+              <td>46.1 - 48.8</td>
+              <td>101 - 108</td>
+              <td>39.8 - 42.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="chart-footnote">
+        Smart Fit uses these ranges as a visual guide and adjusts recommendations based on your selected body type.
+      </p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const authStage = document.getElementById("authStage");
+      const switchButtons = document.querySelectorAll("[data-switch-auth]");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const toast = document.getElementById("toast");
+      const tabLogin = document.querySelector(".tab-login");
+      const tabRegister = document.querySelector(".tab-register");
+
+      function showToast(message) {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2200);
+      }
+
+      function setMode(mode) {
+        const isRegister = mode === "register";
+        authStage.classList.toggle("is-register", isRegister);
+
+        if (tabLogin) tabLogin.classList.toggle("is-active", !isRegister);
+        if (tabRegister) tabRegister.classList.toggle("is-active", isRegister);
+      }
+
+      switchButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          setMode(button.dataset.switchAuth);
+        });
+      });
+
+      if (loginForm) {
+        loginForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          showToast("Signed in successfully. Backend auth can be connected next.");
+          loginForm.reset();
+        });
+      }
+
+      if (registerForm) {
+        registerForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          showToast("Account created successfully. Welcome to AURACAL.");
+          registerForm.reset();
+          setMode("login");
+        });
+      }
+    });
+  </script>
+</body>
+</html>

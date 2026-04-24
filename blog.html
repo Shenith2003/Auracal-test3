@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURACAL — Journal</title>
+  <meta
+    name="description"
+    content="Read the AURACAL Journal for minimalist fashion insights, sustainability stories, and future-facing design articles."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .blog-hero {
+      position: relative;
+      padding-top: 7rem;
+      overflow: hidden;
+    }
+
+    .blog-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(168, 85, 247, 0.16), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 85%);
+      pointer-events: none;
+    }
+
+    .blog-hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .blog-hero-copy h1 {
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin: 1rem 0 0;
+      max-width: 10ch;
+    }
+
+    .blog-hero-copy p {
+      max-width: 62ch;
+      color: var(--text-soft);
+      line-height: 1.8;
+      margin: 1rem 0 0;
+    }
+
+    .blog-hero-panel {
+      border-radius: var(--radius-xl);
+      padding: 1.2rem;
+    }
+
+    .blog-hero-panel p {
+      color: var(--text-soft);
+      line-height: 1.75;
+      margin: 0.85rem 0 1rem;
+    }
+
+    .featured-story {
+      display: grid;
+      gap: 1rem;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .featured-story-media {
+      min-height: 320px;
+    }
+
+    .featured-story-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .featured-story-content {
+      padding: 1.25rem;
+    }
+
+    .story-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      color: var(--text-soft);
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .story-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      color: #e7d7ff;
+    }
+
+    .featured-story-content h2 {
+      margin: 0.9rem 0 0.85rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      max-width: 14ch;
+    }
+
+    .featured-story-content p {
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.85;
+      max-width: 62ch;
+    }
+
+    .blog-layout {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .blog-sidebar,
+    .blog-newsletter,
+    .article-card,
+    .micro-story {
+      border-radius: var(--radius-xl);
+    }
+
+    .blog-sidebar,
+    .blog-newsletter,
+    .article-card,
+    .micro-story {
+      padding: 1.2rem;
+    }
+
+    .blog-sidebar h3,
+    .blog-newsletter h3 {
+      margin: 0 0 0.8rem;
+      font-size: 1rem;
+    }
+
+    .blog-sidebar p,
+    .blog-newsletter p {
+      margin: 0 0 1rem;
+      color: var(--text-soft);
+      line-height: 1.8;
+    }
+
+    .sidebar-list {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .sidebar-list-item {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 20px;
+      padding: 0.95rem 1rem;
+    }
+
+    .sidebar-list-item span {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.35rem;
+    }
+
+    .sidebar-list-item strong {
+      font-size: 0.98rem;
+      color: var(--white);
+      line-height: 1.5;
+    }
+
+    .article-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .article-card {
+      display: grid;
+      gap: 1rem;
+      overflow: hidden;
+    }
+
+    .article-card-media {
+      border-radius: 24px;
+      overflow: hidden;
+      min-height: 240px;
+    }
+
+    .article-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 700ms ease;
+    }
+
+    .article-card:hover .article-card-media img {
+      transform: scale(1.05);
+    }
+
+    .article-card-content h3 {
+      margin: 0.9rem 0 0.65rem;
+      font-size: 1.7rem;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .article-card-content p {
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.8;
+    }
+
+    .article-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .article-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #dbc3ff;
+      transition: transform var(--transition), color var(--transition);
+    }
+
+    .article-read:hover {
+      color: var(--white);
+      transform: translateX(3px);
+    }
+
+    .article-length {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .micro-grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .micro-story h3 {
+      margin: 0.75rem 0 0.5rem;
+      font-size: 1.25rem;
+      line-height: 1.15;
+    }
+
+    .micro-story p {
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.75;
+    }
+
+    .blog-newsletter form {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .blog-newsletter input {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--white);
+      padding: 1rem;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+
+    .blog-newsletter input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .blog-newsletter input:focus {
+      border-color: rgba(168, 85, 247, 0.55);
+      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    @media (min-width: 820px) {
+      .featured-story {
+        grid-template-columns: 1.05fr 0.95fr;
+      }
+
+      .article-card {
+        grid-template-columns: 0.95fr 1.05fr;
+        align-items: center;
+      }
+
+      .micro-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 980px) {
+      .blog-hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      .blog-layout {
+        grid-template-columns: 320px 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition" aria-hidden="true"></div>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-shell glass">
+      <a href="index.html" class="brand" aria-label="AURACAL home">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AURACAL</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html" class="nav-link" data-page-link>Home</a>
+        <a href="shop.html" class="nav-link" data-page-link>Shop</a>
+        <a href="blog.html" class="nav-link active" data-page-link>Journal</a>
+        <a href="contact.html" class="nav-link" data-page-link>Contact</a>
+        <a href="auth.html" class="nav-link" data-page-link>Account</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="ghost-btn" type="button" data-open-fit>Smart Fit</button>
+        <button class="ghost-btn" type="button" data-open-size-chart>Size Chart</button>
+        <a href="cart.html" class="cart-link glass" data-page-link aria-label="View cart">
+          <span>Cart</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
+        >
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu glass" id="mobileMenu">
+      <a href="index.html" class="mobile-link" data-page-link>Home</a>
+      <a href="shop.html" class="mobile-link" data-page-link>Shop</a>
+      <a href="cart.html" class="mobile-link" data-page-link>Cart</a>
+      <a href="blog.html" class="mobile-link active" data-page-link>Journal</a>
+      <a href="auth.html" class="mobile-link" data-page-link>Account</a>
+      <a href="contact.html" class="mobile-link" data-page-link>Contact</a>
+
+      <div class="mobile-menu-actions">
+        <button class="primary-btn" type="button" data-open-fit>Open Smart Fit</button>
+        <button class="ghost-btn full-width" type="button" data-open-size-chart>
+          View Size Chart
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="blog-hero section-space">
+      <div class="container blog-hero-grid">
+        <div class="blog-hero-copy reveal">
+          <span class="eyebrow glass">AURACAL Journal</span>
+          <h1>
+            Fashion, form,
+            <span class="gradient-text">and future material.</span>
+          </h1>
+          <p>
+            A curated editorial space exploring sustainability, minimal luxury,
+            functional fashion systems, and the evolving language of premium tech-wear.
+          </p>
+        </div>
+
+        <aside class="blog-hero-panel glass reveal delay-1">
+          <span class="tiny-label">Editorial direction</span>
+          <p>
+            The AURACAL Journal is designed with the same quiet futurist elegance as the storefront:
+            refined spacing, polished typography, and clean reading rhythms.
+          </p>
+          <div class="hero-cta">
+            <a href="shop.html" class="primary-btn" data-page-link>Shop the Collection</a>
+            <button type="button" class="ghost-btn" data-open-fit>Find My Fit</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="container">
+        <article class="featured-story glass reveal">
+          <div class="featured-story-media">
+            <img
+              src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1400&q=80"
+              alt="Premium minimalist fashion editorial for featured journal story"
+            />
+          </div>
+
+          <div class="featured-story-content">
+            <div class="story-meta">
+              <span class="story-pill">Featured Story</span>
+              <span>April 2026</span>
+              <span>8 min read</span>
+            </div>
+
+            <h2>Why low-impact luxury is becoming the new design standard</h2>
+            <p>
+              Luxury is shifting away from excess and toward precision. In modern fashion systems,
+              premium value comes from long-wear construction, responsible sourcing, and a visual language
+              that feels intentional rather than loud. The future of luxury is quieter, smarter, and more durable.
+            </p>
+
+            <div class="article-footer">
+              <a href="#article-one" class="article-read">Read article →</a>
+              <span class="article-length">Editorial / Sustainability</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="container">
+        <div class="blog-layout">
+          <aside style="display:grid; gap:1rem;">
+            <section class="blog-sidebar glass reveal">
+              <h3>Editorial themes</h3>
+              <p>
+                Explore the core conversations shaping AURACAL’s visual and material direction.
+              </p>
+
+              <div class="sidebar-list">
+                <div class="sidebar-list-item">
+                  <span>Sustainability</span>
+                  <strong>Low-impact materials, reduced waste, and mindful production systems.</strong>
+                </div>
+                <div class="sidebar-list-item">
+                  <span>Materials</span>
+                  <strong>Performance textures, smart fabrics, and premium tactility in daily wear.</strong>
+                </div>
+                <div class="sidebar-list-item">
+                  <span>Culture</span>
+                  <strong>Quiet futurism, visual restraint, and the modern meaning of luxury.</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="blog-newsletter glass reveal delay-1">
+              <h3>Join the journal list</h3>
+              <p>
+                Receive new editorial drops, sustainability notes, and capsule release insights.
+              </p>
+
+              <form id="blogNewsletterForm">
+                <label class="sr-only" for="blogNewsletterEmail">Email address</label>
+                <input
+                  id="blogNewsletterEmail"
+                  type="email"
+                  placeholder="Enter your email"
+                  required
+                />
+                <button type="submit" class="primary-btn">Subscribe</button>
+              </form>
+            </section>
+          </aside>
+
+          <div class="article-grid">
+            <article class="article-card glass reveal" id="article-one">
+              <div class="article-card-media">
+                <img
+                  src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80"
+                  alt="Premium fashion material details for sustainability article"
+                />
+              </div>
+
+              <div class="article-card-content">
+                <div class="story-meta">
+                  <span class="story-pill">Sustainability</span>
+                  <span>April 2026</span>
+                  <span>6 min read</span>
+                </div>
+
+                <h3>Designing garments that last longer than trends</h3>
+                <p>
+                  Trend-chasing often creates visual noise and product waste. A more durable design approach
+                  centers on timeless cuts, fabric resilience, and a modular wardrobe logic where fewer pieces
+                  do more. That shift changes not only how brands produce clothing, but how customers define value.
+                </p>
+
+                <div class="article-footer">
+                  <a href="#" class="article-read">Continue reading →</a>
+                  <span class="article-length">Form / Longevity / Craft</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="article-card glass reveal delay-1">
+              <div class="article-card-media">
+                <img
+                  src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1200&q=80"
+                  alt="Minimal fashion outfit for future materials article"
+                />
+              </div>
+
+              <div class="article-card-content">
+                <div class="story-meta">
+                  <span class="story-pill">Materials</span>
+                  <span>March 2026</span>
+                  <span>5 min read</span>
+                </div>
+
+                <h3>The rise of performance fabrics in elevated wardrobes</h3>
+                <p>
+                  Technical materials once belonged almost entirely to sport or utility. Today they are being
+                  refined into premium fashion staples that feel smoother, lighter, and more adaptable.
+                  Breathability, shape retention, and tactile sophistication now sit inside one design conversation.
+                </p>
+
+                <div class="article-footer">
+                  <a href="#" class="article-read">Continue reading →</a>
+                  <span class="article-length">Fabric / Function / Luxury</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="article-card glass reveal delay-2">
+              <div class="article-card-media">
+                <img
+                  src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1200&q=80"
+                  alt="Minimal futuristic clothing for culture article"
+                />
+              </div>
+
+              <div class="article-card-content">
+                <div class="story-meta">
+                  <span class="story-pill">Culture</span>
+                  <span>March 2026</span>
+                  <span>7 min read</span>
+                </div>
+
+                <h3>Quiet futurism and the new visual language of luxury</h3>
+                <p>
+                  Instead of polished excess, many modern luxury brands are embracing silence: muted palettes,
+                  sculptural forms, sharper spacing, and subtle innovation. This new aesthetic speaks through restraint,
+                  letting craftsmanship and material quality carry the emotion of the garment.
+                </p>
+
+                <div class="article-footer">
+                  <a href="#" class="article-read">Continue reading →</a>
+                  <span class="article-length">Aesthetic / Editorial / Identity</span>
+                </div>
+              </div>
+            </article>
+
+            <div class="micro-grid">
+              <article class="micro-story glass reveal">
+                <div class="story-meta">
+                  <span class="story-pill">Studio Notes</span>
+                  <span>4 min read</span>
+                </div>
+                <h3>How whitespace shapes premium digital shopping</h3>
+                <p>
+                  Luxury interfaces feel calm because they remove friction. Space becomes part of the brand voice.
+                </p>
+              </article>
+
+              <article class="micro-story glass reveal delay-1">
+                <div class="story-meta">
+                  <span class="story-pill">Material Lab</span>
+                  <span>3 min read</span>
+                </div>
+                <h3>Why texture matters as much as silhouette</h3>
+                <p>
+                  Fabric hand-feel changes the perception of value before a customer even reads the label.
+                </p>
+              </article>
+
+              <article class="micro-story glass reveal delay-2">
+                <div class="story-meta">
+                  <span class="story-pill">Retail Future</span>
+                  <span>4 min read</span>
+                </div>
+                <h3>The role of smart sizing in premium conversion</h3>
+                <p>
+                  Fit confidence reduces hesitation and makes a digital product feel more physically real.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand" aria-label="AURACAL home">
+          <span class="brand-mark"></span>
+          <span class="brand-text">AURACAL</span>
+        </a>
+        <p class="footer-text">
+          Precision-crafted clothing for a refined, forward-moving lifestyle.
+        </p>
+      </div>
+
+      <div>
+        <h3>Navigate</h3>
+        <ul class="footer-links">
+          <li><a href="index.html" data-page-link>Home</a></li>
+          <li><a href="shop.html" data-page-link>Shop</a></li>
+          <li><a href="cart.html" data-page-link>Cart</a></li>
+          <li><a href="auth.html" data-page-link>Account</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><button type="button" class="footer-button" data-open-fit>Smart Fit</button></li>
+          <li><button type="button" class="footer-button" data-open-size-chart>Size Chart</button></li>
+          <li><a href="contact.html" data-page-link>Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Legal</h3>
+        <p class="footer-text muted">
+          © 2026 AURACAL. Designed with a minimalist luxury interface system.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Smart Fit Modal -->
+  <div class="modal" id="fitModal" aria-hidden="true" role="dialog" aria-labelledby="fitModalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass tech-modal">
+      <button class="modal-close" type="button" aria-label="Close Smart Fit modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">AURACAL Sizing Engine</span>
+        <h2 id="fitModalTitle">Smart Fit-On</h2>
+        <p>
+          Enter your measurements for an instant luxury-fit recommendation.
+        </p>
+      </div>
+
+      <div class="fit-modal-grid">
+        <form id="fitForm" class="fit-form">
+          <div class="input-group">
+            <label for="heightInput">Height (cm)</label>
+            <input type="number" id="heightInput" min="130" max="230" value="175" required />
+          </div>
+
+          <div class="input-group">
+            <label for="weightInput">Weight (kg)</label>
+            <input type="number" id="weightInput" min="35" max="180" value="72" required />
+          </div>
+
+          <div class="input-group">
+            <label for="bodyTypeInput">Body Type</label>
+            <select id="bodyTypeInput" required>
+              <option value="slim">Slim</option>
+              <option value="athletic">Athletic</option>
+              <option value="average" selected>Average</option>
+              <option value="broad">Broad</option>
+            </select>
+          </div>
+
+          <button class="primary-btn full-width" type="submit">Calculate My Fit</button>
+        </form>
+
+        <div class="fit-result-card glass">
+          <div class="fit-result-header">
+            <span class="tiny-label">Live Recommendation</span>
+            <span class="tiny-label subtle" id="fitProfileLabel">Average Build</span>
+          </div>
+
+          <div class="result-size" id="fitResultSize">M</div>
+          <p class="result-summary" id="fitResultSummary">
+            Designed for a balanced fit with refined everyday layering space.
+          </p>
+
+          <div class="result-metrics">
+            <div class="metric-box">
+              <span>Estimated Chest</span>
+              <strong id="fitChestEstimate">97 cm</strong>
+            </div>
+            <div class="metric-box">
+              <span>Estimated Waist</span>
+              <strong id="fitWaistEstimate">83 cm</strong>
+            </div>
+          </div>
+
+          <div class="result-note" id="fitResultNote">
+            For structured jackets, your recommended AURACAL top size is M.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size Chart Modal -->
+  <div class="modal" id="sizeChartModal" aria-hidden="true" role="dialog" aria-labelledby="sizeChartTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass size-chart-modal">
+      <button class="modal-close" type="button" aria-label="Close size chart modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">Precision size reference</span>
+        <h2 id="sizeChartTitle">Dynamic Size Chart</h2>
+        <p>
+          Compare chest and waist ranges in centimeters and inches.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Chest (cm)</th>
+              <th>Chest (in)</th>
+              <th>Waist (cm)</th>
+              <th>Waist (in)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS</td>
+              <td>84 - 89</td>
+              <td>33 - 35</td>
+              <td>70 - 74</td>
+              <td>27.5 - 29.1</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>90 - 95</td>
+              <td>35.4 - 37.4</td>
+              <td>75 - 79</td>
+              <td>29.5 - 31.1</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>96 - 101</td>
+              <td>37.8 - 39.8</td>
+              <td>80 - 85</td>
+              <td>31.5 - 33.5</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>102 - 108</td>
+              <td>40.2 - 42.5</td>
+              <td>86 - 92</td>
+              <td>33.9 - 36.2</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>109 - 116</td>
+              <td>42.9 - 45.7</td>
+              <td>93 - 100</td>
+              <td>36.6 - 39.4</td>
+            </tr>
+            <tr>
+              <td>XXL</td>
+              <td>117 - 124</td>
+              <td>46.1 - 48.8</td>
+              <td>101 - 108</td>
+              <td>39.8 - 42.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="chart-footnote">
+        Smart Fit uses these ranges as a visual guide and adjusts recommendations based on your selected body type.
+      </p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("blogNewsletterForm");
+      const toast = document.getElementById("toast");
+
+      function showToast(message) {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2200);
+      }
+
+      if (form) {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          form.reset();
+          showToast("You’re subscribed to the AURACAL Journal.");
+        });
+      }
+    });
+  </script>
+</body>
+</html>

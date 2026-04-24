@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURACAL — Cart</title>
+  <meta
+    name="description"
+    content="Review and manage your AURACAL cart with dynamic quantity updates, totals, and a premium checkout-ready interface."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .cart-hero {
+      position: relative;
+      padding-top: 7rem;
+      overflow: hidden;
+    }
+
+    .cart-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(168, 85, 247, 0.16), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 85%);
+      pointer-events: none;
+    }
+
+    .cart-hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .cart-hero-copy h1 {
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin: 1rem 0 0;
+      max-width: 10ch;
+    }
+
+    .cart-hero-copy p {
+      max-width: 62ch;
+      color: var(--text-soft);
+      line-height: 1.8;
+      margin: 1rem 0 0;
+    }
+
+    .cart-hero-panel {
+      border-radius: var(--radius-xl);
+      padding: 1.2rem;
+    }
+
+    .cart-hero-panel p {
+      color: var(--text-soft);
+      line-height: 1.7;
+      margin: 0.85rem 0 1rem;
+    }
+
+    .cart-layout {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .cart-list-shell,
+    .cart-summary,
+    .cart-note,
+    .empty-cart {
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+    }
+
+    .cart-list-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .cart-list-head h2,
+    .cart-summary h2,
+    .cart-note h3 {
+      margin: 0;
+    }
+
+    .cart-list-head p,
+    .cart-summary p,
+    .cart-note p,
+    .empty-cart p {
+      color: var(--text-soft);
+      line-height: 1.75;
+    }
+
+    .cart-items {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .cart-item {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .cart-item-media {
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      background: rgba(255, 255, 255, 0.04);
+      max-width: 150px;
+    }
+
+    .cart-item-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cart-item-main {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .cart-item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .cart-item-title h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.2rem;
+    }
+
+    .cart-item-title p {
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .cart-item-price {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .cart-item-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .qty-control {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .qty-btn {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      color: var(--white);
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .qty-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .qty-value {
+      min-width: 54px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .cart-item-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .remove-btn {
+      padding: 0.8rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 140, 140, 0.2);
+      background: rgba(255, 140, 140, 0.08);
+      color: #ffc1c1;
+      transition:
+        transform var(--transition),
+        border-color var(--transition),
+        background var(--transition);
+    }
+
+    .remove-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 140, 140, 0.12);
+      border-color: rgba(255, 140, 140, 0.35);
+    }
+
+    .item-subtotal {
+      color: var(--text-soft);
+      font-size: 0.95rem;
+    }
+
+    .cart-summary {
+      align-self: start;
+    }
+
+    .summary-lines {
+      display: grid;
+      gap: 0.9rem;
+      margin-top: 1.1rem;
+    }
+
+    .summary-line,
+    .summary-total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .summary-line {
+      color: var(--text-soft);
+    }
+
+    .summary-total {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .summary-actions {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .summary-meta {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 22px;
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.22);
+      color: #ead9ff;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .cart-note p {
+      margin: 0.75rem 0 0;
+    }
+
+    .empty-cart {
+      text-align: center;
+      display: none;
+    }
+
+    .empty-cart.is-visible {
+      display: block;
+    }
+
+    .empty-cart h2 {
+      margin: 0 0 0.8rem;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .empty-cart .hero-cta {
+      justify-content: center;
+      margin-top: 1.25rem;
+    }
+
+    .hidden-when-empty {
+      display: block;
+    }
+
+    .hidden-when-empty.is-hidden {
+      display: none;
+    }
+
+    @media (min-width: 760px) {
+      .cart-item {
+        grid-template-columns: 150px 1fr;
+        align-items: center;
+      }
+    }
+
+    @media (min-width: 980px) {
+      .cart-hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      .cart-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition" aria-hidden="true"></div>
+  <div class="noise-layer" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-shell glass">
+      <a href="index.html" class="brand" aria-label="AURACAL home">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AURACAL</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html" class="nav-link" data-page-link>Home</a>
+        <a href="shop.html" class="nav-link" data-page-link>Shop</a>
+        <a href="blog.html" class="nav-link" data-page-link>Journal</a>
+        <a href="contact.html" class="nav-link" data-page-link>Contact</a>
+        <a href="auth.html" class="nav-link" data-page-link>Account</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="ghost-btn" type="button" data-open-fit>Smart Fit</button>
+        <button class="ghost-btn" type="button" data-open-size-chart>Size Chart</button>
+        <a href="cart.html" class="cart-link glass active" data-page-link aria-label="View cart">
+          <span>Cart</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
+        >
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu glass" id="mobileMenu">
+      <a href="index.html" class="mobile-link" data-page-link>Home</a>
+      <a href="shop.html" class="mobile-link" data-page-link>Shop</a>
+      <a href="cart.html" class="mobile-link active" data-page-link>Cart</a>
+      <a href="blog.html" class="mobile-link" data-page-link>Journal</a>
+      <a href="auth.html" class="mobile-link" data-page-link>Account</a>
+      <a href="contact.html" class="mobile-link" data-page-link>Contact</a>
+
+      <div class="mobile-menu-actions">
+        <button class="primary-btn" type="button" data-open-fit>Open Smart Fit</button>
+        <button class="ghost-btn full-width" type="button" data-open-size-chart>
+          View Size Chart
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="cart-hero section-space">
+      <div class="container cart-hero-grid">
+        <div class="cart-hero-copy reveal">
+          <span class="eyebrow glass">Refined Checkout Flow</span>
+          <h1>
+            Your curated
+            <span class="gradient-text">AURACAL cart.</span>
+          </h1>
+          <p>
+            Review your selected pieces, adjust quantities instantly, and keep your sizing aligned
+            with the Smart Fit system before moving to checkout.
+          </p>
+        </div>
+
+        <aside class="cart-hero-panel glass reveal delay-1">
+          <span class="tiny-label">Cart intelligence</span>
+          <p>
+            Quantity changes, removal actions, and totals update live using browser storage for a smooth premium storefront experience.
+          </p>
+          <div class="hero-cta">
+            <a href="shop.html" class="primary-btn" data-page-link>Continue Shopping</a>
+            <button type="button" class="ghost-btn" data-open-fit>Check My Fit</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="container">
+        <div class="empty-cart glass reveal" id="emptyCartState">
+          <span class="eyebrow">Cart is empty</span>
+          <h2>Start building your luxury system wardrobe.</h2>
+          <p>
+            Your selected AURACAL pieces will appear here once you add them from the shop.
+          </p>
+          <div class="hero-cta">
+            <a href="shop.html" class="primary-btn" data-page-link>Explore Collection</a>
+            <button type="button" class="ghost-btn" data-open-fit>Use Smart Fit</button>
+          </div>
+        </div>
+
+        <div class="cart-layout hidden-when-empty" id="cartContent">
+          <div class="cart-list-shell glass reveal">
+            <div class="cart-list-head">
+              <div>
+                <h2>Selected pieces</h2>
+                <p id="cartItemCountText">0 items in your cart</p>
+              </div>
+              <button class="ghost-btn" id="clearCartBtn" type="button">Clear Cart</button>
+            </div>
+
+            <div class="cart-items" id="cartItemsContainer"></div>
+          </div>
+
+          <div style="display:grid; gap:1rem;">
+            <aside class="cart-summary glass reveal delay-1">
+              <div>
+                <span class="eyebrow">Order summary</span>
+                <h2>Live totals</h2>
+                <p>
+                  Totals update instantly as you change your product quantity.
+                </p>
+              </div>
+
+              <div class="summary-lines">
+                <div class="summary-line">
+                  <span>Subtotal</span>
+                  <strong id="subtotalValue">$0.00</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Shipping</span>
+                  <strong id="shippingValue">$0.00</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Estimated tax</span>
+                  <strong id="taxValue">$0.00</strong>
+                </div>
+                <div class="summary-total">
+                  <span>Total</span>
+                  <span id="totalValue">$0.00</span>
+                </div>
+              </div>
+
+              <div class="summary-actions">
+                <button class="primary-btn full-width" type="button" id="checkoutBtn">
+                  Proceed to Checkout
+                </button>
+                <a href="shop.html" class="ghost-btn full-width" data-page-link>
+                  Continue Shopping
+                </a>
+              </div>
+
+              <div class="summary-meta">
+                Smart Fit and the dynamic size chart remain available before checkout so customers can confirm the ideal silhouette with confidence.
+              </div>
+            </aside>
+
+            <section class="cart-note glass reveal delay-2">
+              <h3>Luxury cart flow note</h3>
+              <p>
+                This page is frontend-only and ready to connect to a real payment or checkout backend later.
+                The data is currently stored in <strong>localStorage</strong> for a smooth demo-ready shopping experience.
+              </p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="brand footer-brand" aria-label="AURACAL home">
+          <span class="brand-mark"></span>
+          <span class="brand-text">AURACAL</span>
+        </a>
+        <p class="footer-text">
+          Precision-crafted clothing for a refined, forward-moving lifestyle.
+        </p>
+      </div>
+
+      <div>
+        <h3>Navigate</h3>
+        <ul class="footer-links">
+          <li><a href="index.html" data-page-link>Home</a></li>
+          <li><a href="shop.html" data-page-link>Shop</a></li>
+          <li><a href="blog.html" data-page-link>Journal</a></li>
+          <li><a href="auth.html" data-page-link>Account</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><button type="button" class="footer-button" data-open-fit>Smart Fit</button></li>
+          <li><button type="button" class="footer-button" data-open-size-chart>Size Chart</button></li>
+          <li><a href="contact.html" data-page-link>Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Legal</h3>
+        <p class="footer-text muted">
+          © 2026 AURACAL. Designed with a minimalist luxury interface system.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Smart Fit Modal -->
+  <div class="modal" id="fitModal" aria-hidden="true" role="dialog" aria-labelledby="fitModalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass tech-modal">
+      <button class="modal-close" type="button" aria-label="Close Smart Fit modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">AURACAL Sizing Engine</span>
+        <h2 id="fitModalTitle">Smart Fit-On</h2>
+        <p>
+          Enter your measurements for an instant luxury-fit recommendation.
+        </p>
+      </div>
+
+      <div class="fit-modal-grid">
+        <form id="fitForm" class="fit-form">
+          <div class="input-group">
+            <label for="heightInput">Height (cm)</label>
+            <input type="number" id="heightInput" min="130" max="230" value="175" required />
+          </div>
+
+          <div class="input-group">
+            <label for="weightInput">Weight (kg)</label>
+            <input type="number" id="weightInput" min="35" max="180" value="72" required />
+          </div>
+
+          <div class="input-group">
+            <label for="bodyTypeInput">Body Type</label>
+            <select id="bodyTypeInput" required>
+              <option value="slim">Slim</option>
+              <option value="athletic">Athletic</option>
+              <option value="average" selected>Average</option>
+              <option value="broad">Broad</option>
+            </select>
+          </div>
+
+          <button class="primary-btn full-width" type="submit">Calculate My Fit</button>
+        </form>
+
+        <div class="fit-result-card glass">
+          <div class="fit-result-header">
+            <span class="tiny-label">Live Recommendation</span>
+            <span class="tiny-label subtle" id="fitProfileLabel">Average Build</span>
+          </div>
+
+          <div class="result-size" id="fitResultSize">M</div>
+          <p class="result-summary" id="fitResultSummary">
+            Designed for a balanced fit with refined everyday layering space.
+          </p>
+
+          <div class="result-metrics">
+            <div class="metric-box">
+              <span>Estimated Chest</span>
+              <strong id="fitChestEstimate">97 cm</strong>
+            </div>
+            <div class="metric-box">
+              <span>Estimated Waist</span>
+              <strong id="fitWaistEstimate">83 cm</strong>
+            </div>
+          </div>
+
+          <div class="result-note" id="fitResultNote">
+            For structured jackets, your recommended AURACAL top size is M.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Size Chart Modal -->
+  <div class="modal" id="sizeChartModal" aria-hidden="true" role="dialog" aria-labelledby="sizeChartTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel glass size-chart-modal">
+      <button class="modal-close" type="button" aria-label="Close size chart modal" data-close-modal>
+        ×
+      </button>
+
+      <div class="modal-head">
+        <span class="eyebrow">Precision size reference</span>
+        <h2 id="sizeChartTitle">Dynamic Size Chart</h2>
+        <p>
+          Compare chest and waist ranges in centimeters and inches.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Chest (cm)</th>
+              <th>Chest (in)</th>
+              <th>Waist (cm)</th>
+              <th>Waist (in)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS</td>
+              <td>84 - 89</td>
+              <td>33 - 35</td>
+              <td>70 - 74</td>
+              <td>27.5 - 29.1</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>90 - 95</td>
+              <td>35.4 - 37.4</td>
+              <td>75 - 79</td>
+              <td>29.5 - 31.1</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>96 - 101</td>
+              <td>37.8 - 39.8</td>
+              <td>80 - 85</td>
+              <td>31.5 - 33.5</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>102 - 108</td>
+              <td>40.2 - 42.5</td>
+              <td>86 - 92</td>
+              <td>33.9 - 36.2</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>109 - 116</td>
+              <td>42.9 - 45.7</td>
+              <td>93 - 100</td>
+              <td>36.6 - 39.4</td>
+            </tr>
+            <tr>
+              <td>XXL</td>
+              <td>117 - 124</td>
+              <td>46.1 - 48.8</td>
+              <td>101 - 108</td>
+              <td>39.8 - 42.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="chart-footnote">
+        Smart Fit uses these ranges as a visual guide and adjusts recommendations based on your selected body type.
+      </p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const STORAGE_KEY = "auracal-cart";
+
+      const cartItemsContainer = document.getElementById("cartItemsContainer");
+      const subtotalValue = document.getElementById("subtotalValue");
+      const shippingValue = document.getElementById("shippingValue");
+      const taxValue = document.getElementById("taxValue");
+      const totalValue = document.getElementById("totalValue");
+      const cartItemCountText = document.getElementById("cartItemCountText");
+      const emptyCartState = document.getElementById("emptyCartState");
+      const cartContent = document.getElementById("cartContent");
+      const clearCartBtn = document.getElementById("clearCartBtn");
+      const checkoutBtn = document.getElementById("checkoutBtn");
+      const toast = document.getElementById("toast");
+      const cartCount = document.getElementById("cartCount");
+
+      function getCart() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch {
+          return [];
+        }
+      }
+
+      function saveCart(cart) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+      }
+
+      function showToast(message) {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2200);
+      }
+
+      function formatPrice(value) {
+        return `$${value.toFixed(2)}`;
+      }
+
+      function getShipping(subtotal) {
+        return subtotal > 0 ? 18 : 0;
+      }
+
+      function getTax(subtotal) {
+        return subtotal > 0 ? subtotal * 0.08 : 0;
+      }
+
+      function updateCartBadge(cart) {
+        const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        if (cartCount) {
+          cartCount.textContent = itemCount;
+        }
+        if (cartItemCountText) {
+          cartItemCountText.textContent = `${itemCount} item${itemCount !== 1 ? "s" : ""} in your cart`;
+        }
+      }
+
+      function renderCart() {
+        const cart = getCart();
+        updateCartBadge(cart);
+
+        if (!cart.length) {
+          emptyCartState.classList.add("is-visible");
+          cartContent.classList.add("is-hidden");
+          cartItemsContainer.innerHTML = "";
+          subtotalValue.textContent = "$0.00";
+          shippingValue.textContent = "$0.00";
+          taxValue.textContent = "$0.00";
+          totalValue.textContent = "$0.00";
+          return;
+        }
+
+        emptyCartState.classList.remove("is-visible");
+        cartContent.classList.remove("is-hidden");
+
+        cartItemsContainer.innerHTML = cart
+          .map((item) => {
+            const itemSubtotal = item.price * item.quantity;
+            return `
+              <article class="cart-item">
+                <div class="cart-item-media">
+                  <img src="${item.image}" alt="${item.name}" />
+                </div>
+
+                <div class="cart-item-main">
+                  <div class="cart-item-top">
+                    <div class="cart-item-title">
+                      <h3>${item.name}</h3>
+                      <p>Premium AURACAL product stored in your cart for a smooth luxury checkout flow.</p>
+                    </div>
+                    <div class="cart-item-price">${formatPrice(item.price)}</div>
+                  </div>
+
+                  <div class="cart-item-controls">
+                    <div class="cart-item-actions">
+                      <div class="qty-control" aria-label="Quantity selector for ${item.name}">
+                        <button class="qty-btn" type="button" data-action="decrease" data-id="${item.id}">−</button>
+                        <span class="qty-value">${item.quantity}</span>
+                        <button class="qty-btn" type="button" data-action="increase" data-id="${item.id}">+</button>
+                      </div>
+
+                      <button class="remove-btn" type="button" data-action="remove" data-id="${item.id}">
+                        Remove
+                      </button>
+                    </div>
+
+                    <div class="item-subtotal">
+                      Item total: <strong>${formatPrice(itemSubtotal)}</strong>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const shipping = getShipping(subtotal);
+        const tax = getTax(subtotal);
+        const total = subtotal + shipping + tax;
+
+        subtotalValue.textContent = formatPrice(subtotal);
+        shippingValue.textContent = formatPrice(shipping);
+        taxValue.textContent = formatPrice(tax);
+        totalValue.textContent = formatPrice(total);
+      }
+
+      function updateQuantity(id, change) {
+        const cart = getCart();
+        const item = cart.find((product) => product.id === id);
+        if (!item) return;
+
+        item.quantity += change;
+
+        if (item.quantity <= 0) {
+          const nextCart = cart.filter((product) => product.id !== id);
+          saveCart(nextCart);
+          renderCart();
+          showToast(`${item.name} removed from cart.`);
+          return;
+        }
+
+        saveCart(cart);
+        renderCart();
+      }
+
+      function removeItem(id) {
+        const cart = getCart();
+        const item = cart.find((product) => product.id === id);
+        const nextCart = cart.filter((product) => product.id !== id);
+        saveCart(nextCart);
+        renderCart();
+
+        if (item) {
+          showToast(`${item.name} removed from cart.`);
+        }
+      }
+
+      cartItemsContainer.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-action]");
+        if (!button) return;
+
+        const id = button.dataset.id;
+        const action = button.dataset.action;
+
+        if (action === "increase") {
+          updateQuantity(id, 1);
+        } else if (action === "decrease") {
+          updateQuantity(id, -1);
+        } else if (action === "remove") {
+          removeItem(id);
+        }
+      });
+
+      clearCartBtn.addEventListener("click", () => {
+        const cart = getCart();
+        if (!cart.length) return;
+
+        localStorage.removeItem(STORAGE_KEY);
+        renderCart();
+        showToast("Cart cleared.");
+      });
+
+      checkoutBtn.addEventListener("click", () => {
+        const cart = getCart();
+        if (!cart.length) {
+          showToast("Your cart is empty.");
+          return;
+        }
+        showToast("Checkout backend can be connected next.");
+      });
+
+      renderCart();
+    });
+  </script>
+</body>
+</html>
